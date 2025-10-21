@@ -1,0 +1,86 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\SocialAuthController;
+use Illuminate\Support\Facades\Route;
+
+// Public Pages
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/history', [PageController::class, 'history'])->name('history');
+Route::get('/heroes', [PageController::class, 'heroes'])->name('heroes');
+Route::get('/heroes/{hero:slug}', [PageController::class, 'heroDetail'])->name('heroes.show');
+Route::get('/onisan', [PageController::class, 'onisan'])->name('onisan');
+Route::get('/onisan/{onisan:slug}', [PageController::class, 'onisanDetail'])->name('onisan.show');
+Route::get('/attractions', [PageController::class, 'attractions'])->name('attractions');
+Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
+
+// Registration
+Route::get('/registration', [RegistrationController::class, 'create'])->name('registration');
+Route::post('/registration', [RegistrationController::class, 'store'])->name('registration.store');
+
+// Social Authentication Routes
+Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToProvider'])->name('social.redirect');
+Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handleProviderCallback'])->name('social.callback');
+
+// OTP Verification Routes
+Route::get('/verify-otp', [App\Http\Controllers\Auth\RegisteredUserController::class, 'showOTPVerification'])->name('otp.verify');
+Route::post('/verify-otp', [App\Http\Controllers\Auth\RegisteredUserController::class, 'verifyOTP'])->name('otp.verify.submit');
+Route::post('/resend-otp', [App\Http\Controllers\Auth\RegisteredUserController::class, 'resendOTP'])->name('otp.resend');
+
+// News/Blog
+Route::get('/news', [PostController::class, 'index'])->name('news.index');
+Route::get('/news/{post:slug}', [PostController::class, 'show'])->name('news.show');
+
+// Forum
+Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
+Route::get('/forum/{category:slug}', [ForumController::class, 'category'])->name('forum.category');
+Route::get('/forum/topic/{topic}', [ForumController::class, 'topic'])->name('forum.topic');
+
+// Authenticated User Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Forum - Create/Reply (Authenticated)
+    Route::get('/forum/{category:slug}/create', [ForumController::class, 'createTopic'])->name('forum.create-topic');
+    Route::post('/forum/{category:slug}/create', [ForumController::class, 'storeTopic'])->name('forum.store-topic');
+    Route::post('/forum/topic/{topic}/reply', [ForumController::class, 'storeReply'])->name('forum.store-reply');
+});
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+
+    // Posts Management
+    Route::get('/posts', [AdminController::class, 'posts'])->name('posts');
+    Route::get('/posts/create', [AdminController::class, 'createPost'])->name('posts.create');
+    Route::post('/posts', [AdminController::class, 'storePost'])->name('posts.store');
+    Route::get('/posts/{post}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
+    Route::patch('/posts/{post}', [AdminController::class, 'updatePost'])->name('posts.update');
+    Route::delete('/posts/{post}', [AdminController::class, 'deletePost'])->name('posts.delete');
+
+    // Registrations Management
+    Route::get('/registrations', [AdminController::class, 'registrations'])->name('registrations');
+    Route::patch('/registrations/{registration}/approve', [AdminController::class, 'approveRegistration'])->name('registrations.approve');
+    Route::patch('/registrations/{registration}/reject', [AdminController::class, 'rejectRegistration'])->name('registrations.reject');
+
+    // Forum Moderation
+    Route::get('/forum', [AdminController::class, 'forum'])->name('forum');
+    Route::delete('/forum/topics/{topic}', [AdminController::class, 'deleteTopic'])->name('forum.delete-topic');
+    Route::delete('/forum/replies/{reply}', [AdminController::class, 'deleteReply'])->name('forum.delete-reply');
+});
+
+require __DIR__.'/auth.php';
