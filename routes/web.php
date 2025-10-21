@@ -7,6 +7,9 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OnisanController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\SocialAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +65,40 @@ Route::middleware('auth')->group(function () {
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Onisans Management
+    Route::resource('onisans', OnisanController::class);
+
+    // News & Blog Management
+    Route::resource('news', NewsController::class);
+
+    // Heroes Management
+    Route::resource('heroes', App\Http\Controllers\Admin\HeroController::class);
+
+    // Pages Management
+    Route::resource('pages', App\Http\Controllers\Admin\PageController::class);
+
+    // Attractions Management
+    Route::resource('attractions', App\Http\Controllers\Admin\AttractionController::class);
+
+    // Users Management
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);
+
+    // Registrations Management
+    Route::resource('registrations', App\Http\Controllers\Admin\RegistrationController::class)->only(['index', 'show', 'destroy']);
+
+    // Site Settings
+    Route::get('/settings', [App\Http\Controllers\Admin\SiteSettingController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('settings.update');
+
+    // Media Library
+    Route::get('/media', [App\Http\Controllers\Admin\MediaController::class, 'index'])->name('media.index');
+    Route::post('/media/upload', [App\Http\Controllers\Admin\MediaController::class, 'upload'])->name('media.upload');
+    Route::delete('/media', [App\Http\Controllers\Admin\MediaController::class, 'destroy'])->name('media.destroy');
+
+    // Legacy Admin Routes (Keep existing functionality)
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
     // Posts Management
@@ -71,11 +108,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/posts/{post}/edit', [AdminController::class, 'editPost'])->name('posts.edit');
     Route::patch('/posts/{post}', [AdminController::class, 'updatePost'])->name('posts.update');
     Route::delete('/posts/{post}', [AdminController::class, 'deletePost'])->name('posts.delete');
-
-    // Registrations Management
-    Route::get('/registrations', [AdminController::class, 'registrations'])->name('registrations');
-    Route::patch('/registrations/{registration}/approve', [AdminController::class, 'approveRegistration'])->name('registrations.approve');
-    Route::patch('/registrations/{registration}/reject', [AdminController::class, 'rejectRegistration'])->name('registrations.reject');
 
     // Forum Moderation
     Route::get('/forum', [AdminController::class, 'forum'])->name('forum');

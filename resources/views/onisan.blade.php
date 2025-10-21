@@ -150,26 +150,46 @@
             @if($pastOnisans->count() > 0)
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($pastOnisans as $onisan)
-                        <a href="{{ route('onisan.show', $onisan->slug) }}" class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 border-gray-100">
+                        @php
+                            $isPlaceholder = $onisan->name === 'Name To Be Confirmed';
+                        @endphp
+                        <a href="{{ route('onisan.show', $onisan->slug) }}" class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 {{ $isPlaceholder ? 'border-purple-200' : 'border-gray-100' }}">
                             <div class="relative h-80 overflow-hidden">
-                                <img src="{{ $onisan->image_url ? asset($onisan->image_url) : 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop' }}"
+                                <img src="{{ $onisan->image_url ? ($isPlaceholder ? $onisan->image_url : asset($onisan->image_url)) : 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop' }}"
                                      alt="{{ $onisan->name }}"
-                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 {{ $isPlaceholder ? 'opacity-60 grayscale' : '' }}">
                                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
+                                @if($isPlaceholder)
+                                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <svg class="w-16 h-16 text-white opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                    </div>
+                                @endif
                                 <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                                    <span class="inline-block bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold mb-3">
-                                        {{ $onisan->title }}
+                                    <span class="inline-block {{ $isPlaceholder ? 'bg-gray-600' : 'bg-purple-600' }} text-white px-3 py-1 rounded-full text-xs font-semibold mb-3">
+                                        @if(preg_match('/(\d+)(st|nd|rd|th)\s+Onisan/', $onisan->full_title, $matches))
+                                            {{ $matches[1] }}{{ $matches[2] }} Onisan {{ $isPlaceholder ? '(Historical)' : '(Past Ruler)' }}
+                                        @else
+                                            Past Onisan
+                                        @endif
                                     </span>
-                                    <h3 class="text-2xl font-bold mb-2">{{ $onisan->name }}</h3>
+                                    <h3 class="text-2xl font-bold mb-2">{{ $isPlaceholder ? 'Historical Record' : $onisan->name }}</h3>
                                     @if($onisan->reign_start)
                                         <p class="text-gray-200 text-sm">
                                             {{ $onisan->reign_start->format('Y') }} - {{ $onisan->reign_end ? $onisan->reign_end->format('Y') : 'Present' }}
                                         </p>
+                                    @elseif($onisan->reign_end)
+                                        <p class="text-gray-200 text-sm">
+                                            Reign ended: {{ $onisan->reign_end->format('Y') }}
+                                        </p>
+                                    @else
+                                        <p class="text-gray-200 text-sm">{{ $isPlaceholder ? 'Records being compiled' : 'Dates to be confirmed' }}</p>
                                     @endif
                                 </div>
                             </div>
                             <div class="p-6">
-                                <p class="text-gray-600 leading-relaxed">
+                                <p class="text-gray-600 leading-relaxed {{ $isPlaceholder ? 'italic' : '' }}">
                                     {{ Str::limit($onisan->short_description, 150) }}
                                 </p>
                             </div>
@@ -177,35 +197,6 @@
                     @endforeach
                 </div>
             @else
-                <!-- Placeholder Cards -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @for($i = 1; $i <= 6; $i++)
-                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl overflow-hidden shadow-lg border-2 border-purple-200">
-                            <div class="relative h-80 overflow-hidden bg-purple-200 flex items-center justify-center">
-                                <svg class="w-24 h-24 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <div class="p-6 text-center">
-                                <h3 class="text-xl font-bold text-gray-400 mb-2">Past Onisan {{ $i }}</h3>
-                                <p class="text-gray-500 text-sm">Information coming soon</p>
-                            </div>
-                        </div>
-                    @endfor
-                </div>
-
-                <div class="text-center mt-12">
-                    <div class="bg-purple-50 border-2 border-purple-200 rounded-2xl p-8 max-w-2xl mx-auto">
-                        <svg class="w-16 h-16 text-purple-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Historical Records Coming Soon</h3>
-                        <p class="text-gray-600 text-lg">
-                            We are currently compiling comprehensive information about the distinguished past rulers of Isan-Ekiti.
-                            This section will feature detailed profiles of our royal lineage.
-                        </p>
-                    </div>
-                </div>
             @endif
         </div>
     </section>
