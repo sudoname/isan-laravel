@@ -16,7 +16,7 @@
             <img src="{{ $heroImage }}"
                  alt="Isan Ekiti"
                  class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-br from-purple-900/85 via-purple-800/75 to-indigo-700/65"></div>
+            <div class="absolute inset-0 bg-black/30"></div>
         </div>
 
         <!-- Hero Content -->
