@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegistrationApproved;
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class RegistrationController extends Controller
 {
@@ -69,8 +71,16 @@ class RegistrationController extends Controller
     {
         $registration->update(['status' => 'approved']);
 
-        return redirect()->back()
-            ->with('success', 'Registration approved successfully!');
+        // Send approval email to the registrant
+        try {
+            Mail::to($registration->email)->send(new RegistrationApproved($registration));
+            $message = 'Registration approved successfully! Approval email sent to ' . $registration->email;
+        } catch (\Exception $e) {
+            \Log::error('Failed to send registration approval email: ' . $e->getMessage());
+            $message = 'Registration approved successfully! However, the approval email could not be sent.';
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     /**

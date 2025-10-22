@@ -24,13 +24,15 @@ class RegistrationController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:registrations,email'],
             'phone' => ['required', 'string', 'max:20'],
             'date_of_birth' => ['required', 'date', 'before:today'],
             'gender' => ['required', 'in:male,female'],
             'current_address' => ['required', 'string'],
             'hometown' => ['nullable', 'string', 'max:255'],
             'occupation' => ['nullable', 'string', 'max:255'],
+        ], [
+            'email.unique' => 'This email address has already been registered. If you have questions about your registration, please contact us.',
         ]);
 
         if ($validator->fails()) {
