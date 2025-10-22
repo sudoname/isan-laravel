@@ -8,7 +8,8 @@
       "Bash(ssh -o \"ServerAliveInterval=60\" root@147.182.242.177 \"cd /var/www/isan-laravel && cat storage/logs/laravel.log | grep -i ''dashboard'' | tail -20\")",
       "Bash(ssh -o \"ServerAliveInterval=60\" root@147.182.242.177 \"cd /var/www/isan-laravel && ls -la database/\")",
       "Bash(ssh -o \"ServerAliveInterval=60\" root@147.182.242.177 \"cd /var/www/isan-laravel && ps aux | grep php-fpm | head -3\")",
-      "Bash(ssh -o \"ServerAliveInterval=60\" root@147.182.242.177 \"which node && node --version\")"
+      "Bash(ssh -o \"ServerAliveInterval=60\" root@147.182.242.177 \"which node && node --version\")",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

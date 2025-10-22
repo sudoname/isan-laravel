@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attraction;
 use App\Models\Hero;
 use App\Models\Onisan;
+use App\Models\ProgressiveUnionOfficial;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -50,7 +51,12 @@ class PageController extends Controller
 
     public function progressiveUnion()
     {
-        return view('progressive-union');
+        $officialsByYear = ProgressiveUnionOfficial::active()
+            ->ordered()
+            ->get()
+            ->groupBy('year_from');
+
+        return view('progressive-union', compact('officialsByYear'));
     }
 
     public function attractions()

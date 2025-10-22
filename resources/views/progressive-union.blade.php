@@ -89,8 +89,40 @@
         </div>
     </section>
 
-    <!-- Membership Section -->
+    <!-- Principal Officials Section -->
+    @if(isset($officialsByYear) && $officialsByYear->count() > 0)
     <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Principal Officials</h2>
+
+            @foreach($officialsByYear as $year => $officials)
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-blue-600 mb-6 text-center">{{ $year }}</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        @foreach($officials as $official)
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                <div class="aspect-square overflow-hidden bg-gray-100">
+                                    <img src="{{ $official->image ? asset('storage/' . $official->image) : 'https://ui-avatars.com/api/?name=' . urlencode($official->name) . '&size=400' }}"
+                                         alt="{{ $official->name }}"
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h4 class="text-lg font-bold text-gray-900 mb-2">{{ $official->name }}</h4>
+                                    <p class="text-blue-600 font-semibold mb-1">{{ $official->title }}</p>
+                                    <p class="text-sm text-gray-500">{{ $official->service_period }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    @endif
+
+    <!-- Membership Section -->
+    <section class="py-20 {{ isset($officialsByYear) && $officialsByYear->count() > 0 ? 'bg-gray-50' : 'bg-white' }}">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-4xl font-bold text-gray-900 mb-6">Join the Isan Progressive Union</h2>
             <p class="text-xl text-gray-700 mb-8">

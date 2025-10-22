@@ -37,10 +37,10 @@
                                 {{ $section['label'] }}
                             </label>
 
-                            @if($settings->{{ $section['field'] }})
+                            @if($settings->{$section['field']})
                                 <div class="mb-4">
                                     <p class="text-xs text-gray-500 mb-2">Current Image:</p>
-                                    <img src="{{ asset('storage/' . $settings->{{ $section['field'] }}) }}"
+                                    <img src="{{ asset('storage/' . $settings->{$section['field']}) }}"
                                          alt="{{ $section['label'] }}"
                                          class="max-w-md rounded-lg shadow-md">
                                 </div>
@@ -89,10 +89,10 @@
                                 {{ $section['label'] }}
                             </label>
 
-                            @if($settings->{{ $section['field'] }})
+                            @if($settings->{$section['field']})
                                 <div class="mb-4">
                                     <p class="text-xs text-gray-500 mb-2">Current Image:</p>
-                                    <img src="{{ asset('storage/' . $settings->{{ $section['field'] }}) }}"
+                                    <img src="{{ asset('storage/' . $settings->{$section['field']}) }}"
                                          alt="{{ $section['label'] }}"
                                          class="max-w-md rounded-lg shadow-md">
                                 </div>
@@ -167,9 +167,9 @@
                             </label>
                             <p class="text-xs text-gray-500 mb-3">{{ $highlight['description'] }}</p>
 
-                            @if($settings->{{ $highlight['field'] }})
+                            @if($settings->{$highlight['field']})
                                 <div class="mb-3">
-                                    <img src="{{ asset('storage/' . $settings->{{ $highlight['field'] }}) }}"
+                                    <img src="{{ asset('storage/' . $settings->{$highlight['field']}) }}"
                                          alt="{{ $highlight['label'] }}"
                                          class="w-full h-40 object-cover rounded-lg shadow-md">
                                 </div>
@@ -222,10 +222,10 @@
                                 {{ $cta['label'] }}
                             </label>
 
-                            @if($settings->{{ $cta['field'] }})
+                            @if($settings->{$cta['field']})
                                 <div class="mb-4">
                                     <p class="text-xs text-gray-500 mb-2">Current Image:</p>
-                                    <img src="{{ asset('storage/' . $settings->{{ $cta['field'] }}) }}"
+                                    <img src="{{ asset('storage/' . $settings->{$cta['field']}) }}"
                                          alt="{{ $cta['label'] }}"
                                          class="max-w-md rounded-lg shadow-md">
                                 </div>

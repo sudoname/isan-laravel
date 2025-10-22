@@ -96,6 +96,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('isan-day-page-settings', [App\Http\Controllers\Admin\IsanDayPageSettingsController::class, 'edit'])->name('isan-day-page-settings.edit');
     Route::patch('isan-day-page-settings', [App\Http\Controllers\Admin\IsanDayPageSettingsController::class, 'update'])->name('isan-day-page-settings.update');
 
+    // Progressive Union Officials Management
+    Route::resource('progressive-union-officials', App\Http\Controllers\Admin\ProgressiveUnionOfficialController::class);
+
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);
     Route::post('users/{user}/toggle-admin', [App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
