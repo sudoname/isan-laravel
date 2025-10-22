@@ -25,10 +25,21 @@
                     <span class="text-purple-200">Unity • Culture • Celebration</span>
                 </p>
                 <div class="pt-8 animate-fade-in-up">
-                    <div class="inline-block bg-white/10 backdrop-blur-sm px-12 py-6 rounded-2xl border-2 border-white/30">
-                        <p class="text-lg text-purple-200 mb-2">Next Celebration</p>
-                        <p class="text-4xl font-bold">December 2025</p>
-                    </div>
+                    @if($upcomingCelebrations->isNotEmpty())
+                        @php $nextCelebration = $upcomingCelebrations->first(); @endphp
+                        <div class="inline-block bg-white/10 backdrop-blur-sm px-12 py-6 rounded-2xl border-2 border-white/30">
+                            <p class="text-lg text-purple-200 mb-2">Next Celebration</p>
+                            <p class="text-4xl font-bold">{{ $nextCelebration->formatted_date }}</p>
+                            @if($nextCelebration->theme)
+                                <p class="text-lg text-purple-200 mt-2">{{ $nextCelebration->theme }}</p>
+                            @endif
+                        </div>
+                    @else
+                        <div class="inline-block bg-white/10 backdrop-blur-sm px-12 py-6 rounded-2xl border-2 border-white/30">
+                            <p class="text-lg text-purple-200 mb-2">Next Celebration</p>
+                            <p class="text-4xl font-bold">December 2025</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -253,33 +264,84 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Gallery Item -->
-                <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
-                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=500&fit=crop"
-                         alt="Past event"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            @if($pastCelebrations->isNotEmpty())
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    @foreach($pastCelebrations as $celebration)
+                        <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                            <div class="relative h-64 overflow-hidden">
+                                @if($celebration->image_url)
+                                    <img src="{{ asset('storage/' . $celebration->image_url) }}"
+                                         alt="{{ $celebration->title }}"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @else
+                                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=400&fit=crop"
+                                         alt="{{ $celebration->title }}"
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                @endif
+                                <div class="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent"></div>
+                                <div class="absolute top-4 right-4 bg-purple-600 px-3 py-1 rounded-full text-white text-xs font-semibold">
+                                    {{ $celebration->celebration_date->format('Y') }}
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4 text-white">
+                                    <h3 class="text-2xl font-bold mb-1">{{ $celebration->title }}</h3>
+                                    @if($celebration->theme)
+                                        <p class="text-sm text-purple-200">{{ $celebration->theme }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-600 mb-3">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    {{ $celebration->formatted_date }}
+                                </div>
+                                @if($celebration->description)
+                                    <p class="text-gray-600 leading-relaxed">
+                                        {{ Str::limit($celebration->description, 120) }}
+                                    </p>
+                                @endif
+                                @if($celebration->location)
+                                    <div class="mt-3 flex items-center text-sm text-gray-500">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        </svg>
+                                        {{ $celebration->location }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=500&fit=crop"
-                         alt="Past event"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            @else
+                <!-- Fallback to placeholder images if no celebrations exist -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=500&fit=crop"
+                             alt="Past event"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=500&fit=crop"
+                             alt="Past event"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
+                        <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&h=500&fit=crop"
+                             alt="Past event"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
+                        <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=500&fit=crop"
+                             alt="Past event"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
                 </div>
-                <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
-                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&h=500&fit=crop"
-                         alt="Past event"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                <div class="relative h-64 overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow group">
-                    <img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=500&fit=crop"
-                         alt="Past event"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-            </div>
+            @endif
         </div>
     </section>
 

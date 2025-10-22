@@ -61,7 +61,17 @@ class PageController extends Controller
 
     public function isanDay()
     {
-        return view('isan-day');
+        $upcomingCelebrations = \App\Models\IsanDayCelebration::published()
+            ->upcoming()
+            ->take(3)
+            ->get();
+
+        $pastCelebrations = \App\Models\IsanDayCelebration::published()
+            ->past()
+            ->take(6)
+            ->get();
+
+        return view('isan-day', compact('upcomingCelebrations', 'pastCelebrations'));
     }
 
     public function contact()

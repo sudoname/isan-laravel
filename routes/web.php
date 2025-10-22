@@ -86,6 +86,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Attractions Management
     Route::resource('attractions', App\Http\Controllers\Admin\AttractionController::class);
 
+    // WhatsApp Groups Management
+    Route::resource('whatsapp-groups', App\Http\Controllers\Admin\WhatsAppGroupController::class);
+
+    // Isan Day Celebrations Management
+    Route::resource('isan-day-celebrations', App\Http\Controllers\Admin\IsanDayCelebrationController::class);
+
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);
 
