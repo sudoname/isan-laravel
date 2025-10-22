@@ -71,7 +71,9 @@ class PageController extends Controller
             ->take(6)
             ->get();
 
-        return view('isan-day', compact('upcomingCelebrations', 'pastCelebrations'));
+        $pageSettings = \App\Models\IsanDayPageSettings::getSettings();
+
+        return view('isan-day', compact('upcomingCelebrations', 'pastCelebrations', 'pageSettings'));
     }
 
     public function contact()

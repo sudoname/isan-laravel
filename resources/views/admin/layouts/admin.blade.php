@@ -68,6 +68,11 @@
                     <span>Isan Day Celebrations</span>
                 </a>
 
+                <a href="{{ route('admin.isan-day-page-settings.edit') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-page-settings.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                    <i class="fas fa-images mr-3"></i>
+                    <span>Isan Day Page Images</span>
+                </a>
+
                 <a href="{{ route('admin.whatsapp-groups.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.whatsapp-groups.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
                     <i class="fab fa-whatsapp mr-3"></i>
                     <span>WhatsApp Groups</span>

@@ -92,6 +92,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Isan Day Celebrations Management
     Route::resource('isan-day-celebrations', App\Http\Controllers\Admin\IsanDayCelebrationController::class);
 
+    // Isan Day Page Images Management
+    Route::get('isan-day-page-settings', [App\Http\Controllers\Admin\IsanDayPageSettingsController::class, 'edit'])->name('isan-day-page-settings.edit');
+    Route::patch('isan-day-page-settings', [App\Http\Controllers\Admin\IsanDayPageSettingsController::class, 'update'])->name('isan-day-page-settings.update');
+
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);
 

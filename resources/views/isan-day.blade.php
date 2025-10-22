@@ -6,7 +6,7 @@
     <!-- Hero Section -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1920&h=1080&fit=crop"
+            <img src="{{ $pageSettings->hero_image ? asset('storage/' . $pageSettings->hero_image) : 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1920&h=1080&fit=crop' }}"
                  alt="Festival celebration"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-900/90 via-purple-800/80 to-pink-700/70"></div>
@@ -74,7 +74,7 @@
                     </p>
                 </div>
                 <div class="order-1 md:order-2">
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&h=600&fit=crop"
+                    <img src="{{ $pageSettings->about_image ? asset('storage/' . $pageSettings->about_image) : 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&h=600&fit=crop' }}"
                          alt="Cultural celebration"
                          class="rounded-2xl shadow-2xl">
                 </div>
@@ -97,7 +97,7 @@
                 <!-- Highlight Card 1 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_cultural_image ? asset('storage/' . $pageSettings->highlight_cultural_image) : 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&h=400&fit=crop' }}"
                              alt="Cultural performance"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent"></div>
@@ -123,7 +123,7 @@
                 <!-- Highlight Card 2 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_reception_image ? asset('storage/' . $pageSettings->highlight_reception_image) : 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop' }}"
                              alt="Community gathering"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent"></div>
@@ -149,7 +149,7 @@
                 <!-- Highlight Card 3 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_sports_image ? asset('storage/' . $pageSettings->highlight_sports_image) : 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=400&fit=crop' }}"
                              alt="Sports"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 to-transparent"></div>
@@ -175,7 +175,7 @@
                 <!-- Highlight Card 4 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_summit_image ? asset('storage/' . $pageSettings->highlight_summit_image) : 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=400&fit=crop' }}"
                              alt="Educational seminar"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-orange-900/80 to-transparent"></div>
@@ -201,7 +201,7 @@
                 <!-- Highlight Card 5 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_cuisine_image ? asset('storage/' . $pageSettings->highlight_cuisine_image) : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&h=400&fit=crop' }}"
                              alt="Food festival"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-red-900/80 to-transparent"></div>
@@ -227,7 +227,7 @@
                 <!-- Highlight Card 6 -->
                 <div class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop"
+                        <img src="{{ $pageSettings->highlight_gala_image ? asset('storage/' . $pageSettings->highlight_gala_image) : 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop' }}"
                              alt="Gala night"
                              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent"></div>
@@ -384,7 +384,7 @@
                         </div>
                     </div>
                     <div class="relative h-full min-h-[500px]">
-                        <img src="https://images.unsplash.com/photo-1496024840928-4c417adf211d?w=800&h=800&fit=crop"
+                        <img src="{{ $pageSettings->cta_image ? asset('storage/' . $pageSettings->cta_image) : 'https://images.unsplash.com/photo-1496024840928-4c417adf211d?w=800&h=800&fit=crop' }}"
                              alt="Celebration"
                              class="absolute inset-0 w-full h-full object-cover">
                     </div>
@@ -444,7 +444,7 @@
     <!-- Final CTA Section -->
     <section class="relative py-24 overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&h=600&fit=crop"
+            <img src="{{ $pageSettings->final_cta_image ? asset('storage/' . $pageSettings->final_cta_image) : 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&h=600&fit=crop' }}"
                  alt="CTA Background"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-purple-900/95 to-pink-900/95"></div>
