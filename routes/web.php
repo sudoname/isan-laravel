@@ -22,6 +22,7 @@ Route::get('/heroes/{hero:slug}', [PageController::class, 'heroDetail'])->name('
 Route::get('/onisan', [PageController::class, 'onisan'])->name('onisan');
 Route::get('/onisan/{onisan:slug}', [PageController::class, 'onisanDetail'])->name('onisan.show');
 Route::get('/progressive-union', [PageController::class, 'progressiveUnion'])->name('progressive-union');
+Route::get('/natural-resources', [PageController::class, 'naturalResources'])->name('natural-resources');
 Route::get('/attractions', [PageController::class, 'attractions'])->name('attractions');
 Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
@@ -98,6 +99,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Progressive Union Officials Management
     Route::resource('progressive-union-officials', App\Http\Controllers\Admin\ProgressiveUnionOfficialController::class);
+
+    // Natural Resources Management
+    Route::resource('natural-resources', App\Http\Controllers\Admin\NaturalResourceController::class);
 
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attraction;
 use App\Models\Hero;
+use App\Models\NaturalResource;
 use App\Models\Onisan;
 use App\Models\ProgressiveUnionOfficial;
 use Illuminate\Http\Request;
@@ -57,6 +58,16 @@ class PageController extends Controller
             ->groupBy('year_from');
 
         return view('progressive-union', compact('officialsByYear'));
+    }
+
+    public function naturalResources()
+    {
+        $resources = NaturalResource::published()->ordered()->get();
+
+        // Group resources by category for better organization
+        $resourcesByCategory = $resources->groupBy('category');
+
+        return view('natural-resources', compact('resources', 'resourcesByCategory'));
     }
 
     public function attractions()

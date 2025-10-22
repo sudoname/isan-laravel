@@ -29,7 +29,7 @@
                         <a href="{{ route('heroes') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Our Heroes</a>
                         <a href="{{ route('onisan') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Onisan</a>
                         <a href="{{ route('progressive-union') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Isan Progressive Union</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Natural Resources</a>
+                        <a href="{{ route('natural-resources') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Natural Resources</a>
                     </div>
                 </div>
 
@@ -102,7 +102,7 @@
             <a href="{{ route('heroes') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Our Heroes</a>
             <a href="{{ route('onisan') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Onisan</a>
             <a href="{{ route('progressive-union') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Progressive Union</a>
-            <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Natural Resources</a>
+            <a href="{{ route('natural-resources') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Natural Resources</a>
             <a href="{{ route('attractions') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Attractions</a>
             <a href="{{ route('registration') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Registration Portal</a>
             <a href="{{ route('isan-day') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Day Celebration</a>

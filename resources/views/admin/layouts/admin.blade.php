@@ -78,6 +78,11 @@
                     <span>Progressive Union Officials</span>
                 </a>
 
+                <a href="{{ route('admin.natural-resources.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.natural-resources.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                    <i class="fas fa-leaf mr-3"></i>
+                    <span>Natural Resources</span>
+                </a>
+
                 <a href="{{ route('admin.whatsapp-groups.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.whatsapp-groups.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
                     <i class="fab fa-whatsapp mr-3"></i>
                     <span>WhatsApp Groups</span>
