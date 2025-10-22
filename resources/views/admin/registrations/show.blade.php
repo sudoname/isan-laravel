@@ -102,15 +102,48 @@
             @endif
         </div>
 
-        <div class="flex justify-end gap-4 pt-6 border-t mt-6">
+        <div class="flex justify-between items-center pt-6 border-t mt-6">
+            <div class="flex gap-3">
+                @if($registration->status === 'pending')
+                    <form action="{{ route('admin.registrations.approve', $registration) }}"
+                          method="POST"
+                          onsubmit="return confirm('Are you sure you want to approve this registration?');">
+                        @csrf
+                        <button type="submit"
+                                class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                            <i class="fas fa-check mr-2"></i> Approve
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.registrations.reject', $registration) }}"
+                          method="POST"
+                          onsubmit="return confirm('Are you sure you want to reject this registration?');">
+                        @csrf
+                        <button type="submit"
+                                class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">
+                            <i class="fas fa-times mr-2"></i> Reject
+                        </button>
+                    </form>
+                @elseif($registration->status === 'approved')
+                    <div class="flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg border border-green-200">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span class="font-medium">This registration has been approved</span>
+                    </div>
+                @elseif($registration->status === 'rejected')
+                    <div class="flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-lg border border-red-200">
+                        <i class="fas fa-times-circle mr-2"></i>
+                        <span class="font-medium">This registration has been rejected</span>
+                    </div>
+                @endif
+            </div>
+
             <form action="{{ route('admin.registrations.destroy', $registration) }}"
                   method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this registration?');">
+                  onsubmit="return confirm('Are you sure you want to delete this registration? This action cannot be undone.');">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
                         class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                    <i class="fas fa-trash mr-2"></i> Delete Registration
+                    <i class="fas fa-trash mr-2"></i> Delete
                 </button>
             </form>
         </div>

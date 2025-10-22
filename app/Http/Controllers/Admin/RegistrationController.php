@@ -63,6 +63,28 @@ class RegistrationController extends Controller
     }
 
     /**
+     * Approve the specified registration.
+     */
+    public function approve(Registration $registration)
+    {
+        $registration->update(['status' => 'approved']);
+
+        return redirect()->back()
+            ->with('success', 'Registration approved successfully!');
+    }
+
+    /**
+     * Reject the specified registration.
+     */
+    public function reject(Registration $registration)
+    {
+        $registration->update(['status' => 'rejected']);
+
+        return redirect()->back()
+            ->with('success', 'Registration rejected.');
+    }
+
+    /**
      * Remove the specified registration from storage.
      */
     public function destroy(Registration $registration)

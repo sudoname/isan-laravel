@@ -97,6 +97,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Registrations Management
     Route::resource('registrations', App\Http\Controllers\Admin\RegistrationController::class)->only(['index', 'show', 'destroy']);
+    Route::post('registrations/{registration}/approve', [App\Http\Controllers\Admin\RegistrationController::class, 'approve'])->name('registrations.approve');
+    Route::post('registrations/{registration}/reject', [App\Http\Controllers\Admin\RegistrationController::class, 'reject'])->name('registrations.reject');
 
     // Site Settings
     Route::get('/settings', [App\Http\Controllers\Admin\SiteSettingController::class, 'edit'])->name('settings.edit');
