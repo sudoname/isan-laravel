@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WhatsAppGroup extends Model
 {
+    protected $table = 'whatsapp_groups';
+
     protected $fillable = [
         'name',
         'description',

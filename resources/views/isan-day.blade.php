@@ -37,7 +37,7 @@
                     @else
                         <div class="inline-block bg-white/10 backdrop-blur-sm px-12 py-6 rounded-2xl border-2 border-white/30">
                             <p class="text-lg text-purple-200 mb-2">Next Celebration</p>
-                            <p class="text-4xl font-bold">December 2025</p>
+                            <p class="text-4xl font-bold">November 2025</p>
                         </div>
                     @endif
                 </div>
@@ -64,7 +64,7 @@
                         home and in the diaspora, to celebrate our shared heritage, culture, and achievements.
                     </p>
                     <p class="text-lg text-gray-600 mb-4 leading-relaxed">
-                        Held every December, this grand event features cultural performances, traditional ceremonies,
+                        Held every November, this grand event features cultural performances, traditional ceremonies,
                         educational programs, networking opportunities, and various activities that showcase the best
                         of Isan Ekiti.
                     </p>
@@ -406,7 +406,7 @@
                 <div class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
                     <h3 class="text-xl font-bold text-gray-900 mb-3">When is Isan Day held?</h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Isan Day is typically held in December each year. The specific dates are announced several
+                        Isan Day is typically held in November each year. The specific dates are announced several
                         months in advance to allow indigenes plan their attendance.
                     </p>
                 </div>

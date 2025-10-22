@@ -63,6 +63,16 @@
                     <span>Attractions</span>
                 </a>
 
+                <a href="{{ route('admin.isan-day-celebrations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-celebrations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                    <i class="fas fa-calendar-day mr-3"></i>
+                    <span>Isan Day Celebrations</span>
+                </a>
+
+                <a href="{{ route('admin.whatsapp-groups.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.whatsapp-groups.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                    <i class="fab fa-whatsapp mr-3"></i>
+                    <span>WhatsApp Groups</span>
+                </a>
+
                 <!-- Site Settings Section -->
                 <div class="px-6 pt-6 pb-2">
                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Site Settings</p>

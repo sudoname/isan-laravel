@@ -40,8 +40,8 @@ class IsanDayCelebrationController extends Controller
 
         $celebrations = $query->ordered()->paginate(15);
 
-        // Get unique years for filter
-        $years = IsanDayCelebration::selectRaw('YEAR(celebration_date) as year')
+        // Get unique years for filter (SQLite compatible)
+        $years = IsanDayCelebration::selectRaw("strftime('%Y', celebration_date) as year")
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
