@@ -105,6 +105,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Media Library
     Route::get('/media', [App\Http\Controllers\Admin\MediaController::class, 'index'])->name('media.index');
     Route::post('/media/upload', [App\Http\Controllers\Admin\MediaController::class, 'upload'])->name('media.upload');
+    Route::post('/media/create-folder', [App\Http\Controllers\Admin\MediaController::class, 'createFolder'])->name('media.create-folder');
     Route::delete('/media', [App\Http\Controllers\Admin\MediaController::class, 'destroy'])->name('media.destroy');
 
     // Legacy Admin Routes (Keep existing functionality)

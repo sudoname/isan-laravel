@@ -11,15 +11,22 @@
             <div>
                 <p class="text-gray-600">Manage your media files and images</p>
             </div>
-            <button onclick="document.getElementById('file-upload').click()"
-                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                <i class="fas fa-upload mr-2"></i> Upload Files
-            </button>
+            <div class="flex gap-2">
+                <button onclick="showCreateFolderModal()"
+                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                    <i class="fas fa-folder-plus mr-2"></i> New Folder
+                </button>
+                <button onclick="document.getElementById('file-upload').click()"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    <i class="fas fa-upload mr-2"></i> Upload Files
+                </button>
+            </div>
         </div>
 
         <!-- Hidden File Upload Form -->
         <form id="upload-form" action="{{ route('admin.media.upload') }}" method="POST" enctype="multipart/form-data" class="hidden">
             @csrf
+            <input type="hidden" name="folder" value="{{ $folder }}">
             <input type="file"
                    id="file-upload"
                    name="files[]"
@@ -27,6 +34,37 @@
                    accept="image/*"
                    onchange="this.form.submit()">
         </form>
+
+        <!-- Create Folder Modal -->
+        <div id="create-folder-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Create New Folder</h3>
+                <form action="{{ route('admin.media.create-folder') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="parent_folder" value="{{ $folder }}">
+                    <div class="mb-4">
+                        <label for="folder_name" class="block text-sm font-medium text-gray-700 mb-2">Folder Name</label>
+                        <input type="text"
+                               id="folder_name"
+                               name="folder_name"
+                               required
+                               placeholder="e.g., 2025-isan-day"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button"
+                                onclick="hideCreateFolderModal()"
+                                class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                            <i class="fas fa-folder-plus mr-2"></i> Create Folder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Folder Navigation -->
         @if($folder)
@@ -129,6 +167,22 @@
 
 @push('scripts')
 <script>
+    // Show/Hide Create Folder Modal
+    function showCreateFolderModal() {
+        document.getElementById('create-folder-modal').classList.remove('hidden');
+    }
+
+    function hideCreateFolderModal() {
+        document.getElementById('create-folder-modal').classList.add('hidden');
+    }
+
+    // Close modal on outside click
+    document.getElementById('create-folder-modal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideCreateFolderModal();
+        }
+    });
+
     // Copy URL to clipboard
     function copyToClipboard(url) {
         navigator.clipboard.writeText(url).then(function() {

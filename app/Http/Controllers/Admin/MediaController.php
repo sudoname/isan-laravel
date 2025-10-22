@@ -84,6 +84,30 @@ class MediaController extends Controller
     }
 
     /**
+     * Create a new folder.
+     */
+    public function createFolder(Request $request)
+    {
+        $request->validate([
+            'folder_name' => 'required|string|max:255',
+            'parent_folder' => 'nullable|string'
+        ]);
+
+        $folderName = str_replace(['/', '\\', '..'], '', $request->folder_name);
+        $parentFolder = $request->get('parent_folder', '');
+        $fullPath = $parentFolder ? $parentFolder . '/' . $folderName : $folderName;
+
+        if (Storage::disk('public')->exists($fullPath)) {
+            return back()->with('error', 'Folder already exists!');
+        }
+
+        Storage::disk('public')->makeDirectory($fullPath);
+
+        return redirect()->route('admin.media.index', ['folder' => $parentFolder])
+            ->with('success', 'Folder created successfully!');
+    }
+
+    /**
      * Delete a media file.
      */
     public function destroy(Request $request)
