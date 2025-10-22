@@ -21,6 +21,7 @@ Route::get('/heroes', [PageController::class, 'heroes'])->name('heroes');
 Route::get('/heroes/{hero:slug}', [PageController::class, 'heroDetail'])->name('heroes.show');
 Route::get('/onisan', [PageController::class, 'onisan'])->name('onisan');
 Route::get('/onisan/{onisan:slug}', [PageController::class, 'onisanDetail'])->name('onisan.show');
+Route::get('/progressive-union', [PageController::class, 'progressiveUnion'])->name('progressive-union');
 Route::get('/attractions', [PageController::class, 'attractions'])->name('attractions');
 Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');

@@ -28,6 +28,7 @@
                         <a href="{{ route('history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Our History</a>
                         <a href="{{ route('heroes') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Our Heroes</a>
                         <a href="{{ route('onisan') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Onisan</a>
+                        <a href="{{ route('progressive-union') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Isan Progressive Union</a>
                     </div>
                 </div>
 
@@ -38,17 +39,27 @@
                     Registration Portal
                 </a>
                 <a href="{{ route('isan-day') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('isan-day') ? 'text-green-600' : '' }}">
-                    Isan Day
+                    Isan Day Celebration
                 </a>
                 <a href="{{ route('news.index') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('news.*') ? 'text-green-600' : '' }}">
                     News
                 </a>
-                <a href="{{ route('forum.index') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('forum.*') ? 'text-green-600' : '' }}">
-                    Forum
-                </a>
-                <a href="{{ route('contact') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('contact') ? 'text-green-600' : '' }}">
-                    Contact
-                </a>
+
+                <!-- Contact Us Dropdown -->
+                <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <button class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium flex items-center {{ request()->routeIs('contact') || request()->routeIs('forum.*') ? 'text-green-600' : '' }}">
+                        Contact Us
+                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div x-show="open"
+                         x-transition
+                         class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="{{ route('contact') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Contact</a>
+                        <a href="{{ route('forum.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Forum</a>
+                    </div>
+                </div>
 
                 @auth
                     @if(Auth::user()->is_admin)
@@ -86,12 +97,13 @@
             <a href="{{ route('history') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Our History</a>
             <a href="{{ route('heroes') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Our Heroes</a>
             <a href="{{ route('onisan') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Onisan</a>
+            <a href="{{ route('progressive-union') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Progressive Union</a>
             <a href="{{ route('attractions') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Attractions</a>
             <a href="{{ route('registration') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Registration Portal</a>
-            <a href="{{ route('isan-day') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Day</a>
+            <a href="{{ route('isan-day') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Day Celebration</a>
             <a href="{{ route('news.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">News</a>
-            <a href="{{ route('forum.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Forum</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Contact</a>
+            <a href="{{ route('forum.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Forum</a>
             @auth
                 @if(Auth::user()->is_admin)
                     <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Admin</a>

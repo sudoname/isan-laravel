@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attraction;
 use App\Models\Hero;
 use App\Models\Onisan;
 use Illuminate\Http\Request;
@@ -47,9 +48,15 @@ class PageController extends Controller
         return view('history');
     }
 
+    public function progressiveUnion()
+    {
+        return view('progressive-union');
+    }
+
     public function attractions()
     {
-        return view('attractions');
+        $attractions = Attraction::published()->ordered()->get();
+        return view('attractions', compact('attractions'));
     }
 
     public function isanDay()
