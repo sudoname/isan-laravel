@@ -79,7 +79,7 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <img src="{{ $user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
+                                <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
                                      alt="{{ $user->name }}"
                                      class="w-10 h-10 rounded-full object-cover">
                                 <div class="ml-4">
@@ -118,6 +118,21 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
+                                <!-- Promote/Demote Admin -->
+                                @if($user->id !== auth()->id())
+                                    <form action="{{ route('admin.users.toggle-admin', $user) }}"
+                                          method="POST"
+                                          class="inline"
+                                          onsubmit="return confirm('Are you sure you want to {{ $user->is_admin ? 'demote' : 'promote' }} this user?');">
+                                        @csrf
+                                        <button type="submit"
+                                                class="{{ $user->is_admin ? 'text-orange-600 hover:text-orange-900' : 'text-purple-600 hover:text-purple-900' }}"
+                                                title="{{ $user->is_admin ? 'Demote from Admin' : 'Promote to Admin' }}">
+                                            <i class="fas {{ $user->is_admin ? 'fa-user-minus' : 'fa-user-shield' }}"></i>
+                                        </button>
+                                    </form>
+                                @endif
+
                                 <a href="{{ route('admin.users.edit', $user) }}"
                                    class="text-blue-600 hover:text-blue-900"
                                    title="Edit">

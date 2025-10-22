@@ -101,4 +101,24 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully!');
     }
+
+    /**
+     * Toggle admin status for the specified user.
+     */
+    public function toggleAdmin(User $user)
+    {
+        // Prevent removing your own admin access
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'You cannot change your own admin status!');
+        }
+
+        $user->is_admin = !$user->is_admin;
+        $user->save();
+
+        $status = $user->is_admin ? 'promoted to admin' : 'demoted to regular user';
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "User {$status} successfully!");
+    }
 }

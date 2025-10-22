@@ -98,6 +98,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);
+    Route::post('users/{user}/toggle-admin', [App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
 
     // Registrations Management
     Route::resource('registrations', App\Http\Controllers\Admin\RegistrationController::class)->only(['index', 'show', 'destroy']);
