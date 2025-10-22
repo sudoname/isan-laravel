@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ForumController;
@@ -24,6 +25,11 @@ Route::get('/attractions', [PageController::class, 'attractions'])->name('attrac
 Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
+
+// Policy Pages
+Route::get('/policy/privacy', [PolicyController::class, 'privacy'])->name('policy.privacy');
+Route::get('/policy/terms', [PolicyController::class, 'terms'])->name('policy.terms');
+Route::get('/policy/facebook_callback', [PolicyController::class, 'facebookCallback'])->name('policy.facebook_callback');
 
 // Registration
 Route::get('/registration', [RegistrationController::class, 'create'])->name('registration');

@@ -121,7 +121,7 @@ class RegisteredUserController extends Controller
         // Login the user
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'Email verified successfully! Welcome to Isan Ekiti.');
+        return redirect()->route('home')->with('success', 'Email verified successfully! Welcome to Isan Ekiti.');
     }
 
     /**

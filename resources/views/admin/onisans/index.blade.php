@@ -43,7 +43,7 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 @if($onisan->image_url)
-                                    <img src="{{ asset($onisan->image_url) }}"
+                                    <img src="{{ asset('storage/' . $onisan->image_url) }}"
                                          alt="{{ $onisan->name }}"
                                          class="w-12 h-12 rounded-full object-cover">
                                 @else

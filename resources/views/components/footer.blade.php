@@ -61,6 +61,11 @@
 
         <!-- Bottom Bar -->
         <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
+            <div class="mb-4">
+                <a href="{{ route('policy.privacy') }}" class="text-gray-300 hover:text-purple-400 transition-colors mx-3">Privacy Policy</a>
+                <span class="text-gray-600">•</span>
+                <a href="{{ route('policy.terms') }}" class="text-gray-300 hover:text-purple-400 transition-colors mx-3">Terms of Service</a>
+            </div>
             <p>&copy; {{ date('Y') }} Isan Ekiti. All rights reserved. Built with ❤️ for the Isan Ekiti community by <a href="#" class="text-green-400 hover:text-green-300 font-semibold transition-colors">Khan Innovations Nigeria Limited</a></p>
         </div>
     </div>

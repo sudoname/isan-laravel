@@ -22,6 +22,13 @@ class SocialAuthController extends Controller
         }
 
         try {
+            // For Facebook, only request public_profile (email requires app review)
+            if ($provider === 'facebook') {
+                return Socialite::driver($provider)
+                    ->scopes(['public_profile'])
+                    ->redirect();
+            }
+
             return Socialite::driver($provider)->redirect();
         } catch (\Exception $e) {
             return redirect()->route('login')
@@ -46,8 +53,21 @@ class SocialAuthController extends Controller
                 ->with('error', 'Failed to authenticate with ' . ucfirst($provider) . '. Please try again.');
         }
 
-        // Check if user exists by email
-        $user = User::where('email', $socialUser->getEmail())->first();
+        // Get email or generate one if not provided (Facebook without email permission)
+        $email = $socialUser->getEmail();
+        if (!$email) {
+            // Generate a unique email for users without email access
+            $email = $provider . '_' . $socialUser->getId() . '@isanekiti.social';
+        }
+
+        // Check if user exists by provider ID first, then by email
+        $user = User::where('provider', $provider)
+            ->where('provider_id', $socialUser->getId())
+            ->first();
+
+        if (!$user) {
+            $user = User::where('email', $email)->first();
+        }
 
         if ($user) {
             // User exists - update provider info if needed
@@ -63,7 +83,7 @@ class SocialAuthController extends Controller
             // Create new user
             $user = User::create([
                 'name' => $socialUser->getName() ?? $socialUser->getNickname() ?? 'User',
-                'email' => $socialUser->getEmail(),
+                'email' => $email,
                 'provider' => $provider,
                 'provider_id' => $socialUser->getId(),
                 'provider_token' => $socialUser->token,
@@ -76,7 +96,7 @@ class SocialAuthController extends Controller
         // Login the user
         Auth::login($user, true);
 
-        return redirect()->intended('/dashboard')
+        return redirect()->intended(route('home'))
             ->with('success', 'Successfully logged in with ' . ucfirst($provider) . '!');
     }
 }

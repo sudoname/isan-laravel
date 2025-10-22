@@ -30,8 +30,8 @@
                 <div class="md:col-span-2">
                     <div class="prose prose-lg max-w-none">
                         <h2 class="text-3xl font-bold text-gray-900 mb-6">Biography</h2>
-                        <div class="text-gray-700 leading-relaxed whitespace-pre-line">
-                            {{ $hero->biography }}
+                        <div class="text-gray-700 leading-relaxed">
+                            {!! $hero->biography !!}
                         </div>
                     </div>
 

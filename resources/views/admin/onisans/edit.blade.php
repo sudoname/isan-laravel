@@ -277,6 +277,7 @@
                 <div class="space-y-4">
                     <!-- Is Current -->
                     <div class="flex items-center">
+                        <input type="hidden" name="is_current" value="0">
                         <input type="checkbox" name="is_current" id="is_current" value="1"
                                {{ old('is_current', $onisan->is_current) ? 'checked' : '' }}
                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
@@ -287,6 +288,7 @@
 
                     <!-- Is Published -->
                     <div class="flex items-center">
+                        <input type="hidden" name="is_published" value="0">
                         <input type="checkbox" name="is_published" id="is_published" value="1"
                                {{ old('is_published', $onisan->is_published) ? 'checked' : '' }}
                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
@@ -299,14 +301,10 @@
 
             <!-- Form Actions -->
             <div class="flex justify-between pt-6 border-t">
-                <form action="{{ route('admin.onisans.destroy', $onisan) }}" method="POST"
-                      onsubmit="return confirm('Are you sure you want to delete this Onisan? This action cannot be undone.');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-                        <i class="fas fa-trash mr-2"></i> Delete Onisan
-                    </button>
-                </form>
+                <button type="button" onclick="document.getElementById('deleteForm').submit();"
+                        class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    <i class="fas fa-trash mr-2"></i> Delete Onisan
+                </button>
 
                 <div class="flex space-x-4">
                     <a href="{{ route('admin.onisans.index') }}"
@@ -320,6 +318,13 @@
                 </div>
             </div>
         </form>
+
+        <!-- Delete form (separate from update form to avoid nesting) -->
+        <form id="deleteForm" action="{{ route('admin.onisans.destroy', $onisan) }}" method="POST" class="hidden"
+              onsubmit="return confirm('Are you sure you want to delete this Onisan? This action cannot be undone.');">
+            @csrf
+            @method('DELETE')
+        </form>
     </div>
 </div>
 @endsection
@@ -329,10 +334,20 @@
     // Initialize TinyMCE
     tinymce.init({
         selector: '.tinymce',
-        height: 400,
-        menubar: false,
-        plugins: 'lists link image code',
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+        height: 500,
+        plugins: [
+            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+            'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: '{{ Auth::user()->name }}',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+        uploadcare_public_key: '682d4029dd931b43b477',
         content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }'
     });
 

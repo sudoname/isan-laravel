@@ -194,25 +194,18 @@
 
 @push('scripts')
 <script>
-    // Initialize TinyMCE with more plugins for rich content editing
+    // Initialize TinyMCE v8 with enhanced plugins
     tinymce.init({
         selector: '.tinymce',
         height: 500,
-        menubar: false,
         plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+            'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
         ],
-        toolbar: 'undo redo | formatselect | bold italic underline | ' +
-                 'alignleft aligncenter alignright alignjustify | ' +
-                 'bullist numlist outdent indent | link image media | ' +
-                 'removeformat code fullscreen help',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; line-height: 1.6; }',
-        image_advtab: true,
-        relative_urls: false,
-        remove_script_host: false,
-        convert_urls: true,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: '{{ Auth::user()->name }}',
+        uploadcare_public_key: '682d4029dd931b43b477'
     });
 
     // Image preview

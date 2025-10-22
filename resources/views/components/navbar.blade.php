@@ -3,8 +3,8 @@
         <div class="flex justify-between h-16">
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
-                <a href="{{ route('home') }}" class="text-2xl font-bold text-green-600 hover:text-green-700">
-                    ISAN EKITI
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <span class="text-2xl font-bold text-green-600">Isan Ekiti</span>
                 </a>
             </div>
 

@@ -40,21 +40,8 @@
                 <div class="lg:col-span-2">
                     <div class="bg-white">
                         <h2 class="text-3xl font-bold text-gray-900 mb-8 pb-4 border-b-2 border-purple-200">Royal Biography</h2>
-                        <div class="prose prose-lg max-w-none">
-                            @php
-                                // Split biography into paragraphs and format
-                                $paragraphs = explode("\n\n", $onisan->biography);
-                            @endphp
-                            @foreach($paragraphs as $paragraph)
-                                @if(trim($paragraph))
-                                    @if(preg_match('/^[A-Z\s]+$/', trim($paragraph)))
-                                        {{-- All caps sections become subheadings --}}
-                                        <h3 class="text-xl font-bold text-purple-700 mt-8 mb-4 uppercase tracking-wide">{{ trim($paragraph) }}</h3>
-                                    @else
-                                        <p class="text-gray-700 leading-relaxed mb-6 text-justify">{{ trim($paragraph) }}</p>
-                                    @endif
-                                @endif
-                            @endforeach
+                        <div class="prose prose-lg max-w-none text-gray-700">
+                            {!! $onisan->biography !!}
                         </div>
                     </div>
 

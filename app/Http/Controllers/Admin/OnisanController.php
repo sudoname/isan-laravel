@@ -107,8 +107,6 @@ class OnisanController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'reign_start' => 'nullable|date',
             'reign_end' => 'nullable|date',
-            'is_current' => 'boolean',
-            'is_published' => 'boolean',
             'display_order' => 'nullable|integer',
             'palace_address' => 'nullable|string',
             'contact_email' => 'nullable|email',
@@ -132,11 +130,6 @@ class OnisanController extends Controller
             $validated['image_url'] = 'images/onisan/' . $imageName;
         }
 
-        // If this is set as current, unset all others
-        if ($request->boolean('is_current') && !$onisan->is_current) {
-            Onisan::where('is_current', true)->update(['is_current' => false]);
-        }
-
         // Update slug if name changed
         if ($onisan->name !== $validated['name']) {
             $validated['slug'] = Str::slug($validated['name']);
@@ -151,7 +144,30 @@ class OnisanController extends Controller
             $validated['development_projects'] = array_values(array_filter($validated['development_projects']));
         }
 
+        // Update the onisan with validated data first
         $onisan->update($validated);
+
+        // Handle is_current checkbox separately (after main update)
+        // Only change is_current if the checkbox was explicitly checked or if we're removing current status
+        if ($request->has('is_current') && $request->input('is_current') == '1') {
+            // User wants to mark this as current
+            if (!$onisan->is_current) {
+                Onisan::where('is_current', true)->update(['is_current' => false]);
+                $onisan->is_current = true;
+                $onisan->save();
+            }
+        } elseif ($request->has('is_current') && $request->input('is_current') == '0' && !$onisan->is_current) {
+            // Checkbox explicitly unchecked for a non-current onisan - keep it as not current
+            $onisan->is_current = false;
+            $onisan->save();
+        }
+        // If is_current checkbox not in request OR onisan is already current and checkbox is 0, preserve current status (do nothing)
+
+        // Handle is_published checkbox separately
+        if ($request->has('is_published')) {
+            $onisan->is_published = $request->input('is_published') == '1';
+            $onisan->save();
+        }
 
         return redirect()->route('admin.onisans.index')->with('success', 'Onisan updated successfully!');
     }

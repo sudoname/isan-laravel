@@ -33,6 +33,11 @@
                             class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                         <i class="fas fa-share-alt mr-2"></i> Social Media
                     </button>
+                    <button type="button" @click="activeTab = 'tiles'"
+                            :class="activeTab === 'tiles' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <i class="fas fa-th-large mr-2"></i> Tile Images
+                    </button>
                     <button type="button" @click="activeTab = 'footer'"
                             :class="activeTab === 'footer' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                             class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
@@ -171,6 +176,93 @@
                         <i class="fab fa-linkedin text-blue-700"></i> LinkedIn URL
                     </label>
                     <input type="url" name="social_linkedin" value="{{ old('social_linkedin', $settings->social_linkedin) }}" class="w-full border-gray-300 rounded-lg" placeholder="https://linkedin.com/...">
+                </div>
+            </div>
+
+            <!-- Tile Images -->
+            <div x-show="activeTab === 'tiles'" class="space-y-6">
+                <h3 class="text-lg font-semibold mb-4">Homepage Tile Images</h3>
+                <p class="text-gray-600 mb-6">Upload custom images for each tile on the homepage. These will replace the default images.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- History Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-book text-green-600 mr-1"></i> History Tile
+                        </label>
+                        @if($settings->tile_history_image)
+                            <img src="{{ asset('storage/' . $settings->tile_history_image) }}" alt="History Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_history_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+
+                    <!-- Heroes Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-star text-blue-600 mr-1"></i> Heroes Tile
+                        </label>
+                        @if($settings->tile_heroes_image)
+                            <img src="{{ asset('storage/' . $settings->tile_heroes_image) }}" alt="Heroes Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_heroes_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+
+                    <!-- Attractions Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-map-marked-alt text-orange-600 mr-1"></i> Attractions Tile
+                        </label>
+                        @if($settings->tile_attractions_image)
+                            <img src="{{ asset('storage/' . $settings->tile_attractions_image) }}" alt="Attractions Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_attractions_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+
+                    <!-- Isan Day Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-calendar-day text-purple-600 mr-1"></i> Isan Day Tile
+                        </label>
+                        @if($settings->tile_isan_day_image)
+                            <img src="{{ asset('storage/' . $settings->tile_isan_day_image) }}" alt="Isan Day Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_isan_day_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+
+                    <!-- News Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-newspaper text-red-600 mr-1"></i> News & Updates Tile
+                        </label>
+                        @if($settings->tile_news_image)
+                            <img src="{{ asset('storage/' . $settings->tile_news_image) }}" alt="News Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_news_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+
+                    <!-- Forum Tile -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-comments text-indigo-600 mr-1"></i> Forum Tile
+                        </label>
+                        @if($settings->tile_forum_image)
+                            <img src="{{ asset('storage/' . $settings->tile_forum_image) }}" alt="Forum Tile" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="tile_forum_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 600x400px, max 5MB</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+                    <p class="text-sm text-blue-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>Note:</strong> If no custom image is uploaded, the default images will be used for each tile.
+                    </p>
                 </div>
             </div>
 

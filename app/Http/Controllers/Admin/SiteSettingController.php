@@ -32,6 +32,12 @@ class SiteSettingController extends Controller
             'homepage_hero_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'homepage_hero_title' => 'nullable|string|max:255',
             'homepage_hero_subtitle' => 'nullable|string',
+            'tile_history_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'tile_heroes_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'tile_attractions_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'tile_isan_day_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'tile_news_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'tile_forum_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'contact_address' => 'nullable|string',
@@ -76,6 +82,20 @@ class SiteSettingController extends Controller
             $validated['homepage_hero_image'] = $request->file('homepage_hero_image')->store('settings', 'public');
         } else {
             unset($validated['homepage_hero_image']);
+        }
+
+        // Handle tile image uploads
+        $tileImages = ['tile_history_image', 'tile_heroes_image', 'tile_attractions_image', 'tile_isan_day_image', 'tile_news_image', 'tile_forum_image'];
+        foreach ($tileImages as $tileImage) {
+            if ($request->hasFile($tileImage)) {
+                // Delete old tile image if exists
+                if ($settings->$tileImage && Storage::disk('public')->exists($settings->$tileImage)) {
+                    Storage::disk('public')->delete($settings->$tileImage);
+                }
+                $validated[$tileImage] = $request->file($tileImage)->store('settings/tiles', 'public');
+            } else {
+                unset($validated[$tileImage]);
+            }
         }
 
         $settings->update($validated);
