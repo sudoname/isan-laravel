@@ -47,6 +47,14 @@ class PageController extends Controller
 
     public function history()
     {
+        // Try to get the history page from the database
+        $page = \App\Models\Page::where('slug', 'history')->published()->first();
+
+        // If database page exists, use it; otherwise use the static view
+        if ($page) {
+            return view('page', compact('page'));
+        }
+
         return view('history');
     }
 
