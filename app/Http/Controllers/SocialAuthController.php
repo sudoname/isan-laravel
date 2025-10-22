@@ -25,7 +25,8 @@ class SocialAuthController extends Controller
             // For Facebook, only request public_profile (email requires app review)
             if ($provider === 'facebook') {
                 return Socialite::driver($provider)
-                    ->scopes(['public_profile'])
+                    ->setScopes(['public_profile'])
+                    ->fields(['id', 'name', 'first_name', 'last_name'])
                     ->redirect();
             }
 
