@@ -51,9 +51,15 @@
                 </a>
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
-                        Dashboard
-                    </a>
+                    @if(Auth::user()->is_admin)
+                        <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
+                            Admin
+                        </a>
+                    @else
+                        <a href="{{ route('profile.edit') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
+                            Profile
+                        </a>
+                    @endif
                 @else
                     <a href="{{ route('login') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
                         Login
@@ -87,7 +93,11 @@
             <a href="{{ route('forum.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Forum</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Contact</a>
             @auth
-                <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Dashboard</a>
+                @if(Auth::user()->is_admin)
+                    <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Admin</a>
+                @else
+                    <a href="{{ route('profile.edit') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Profile</a>
+                @endif
             @else
                 <a href="{{ route('login') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Login</a>
             @endauth
