@@ -181,7 +181,12 @@
     <!-- Call to Action -->
     <section class="relative py-24 overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&h=600&fit=crop" alt="CTA Background" class="w-full h-full object-cover">
+            @php
+                $ctaImage = $settings->cta_registration_image
+                    ? asset('storage/' . $settings->cta_registration_image)
+                    : 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1920&h=600&fit=crop';
+            @endphp
+            <img src="{{ $ctaImage }}" alt="CTA Background" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-green-900/95 to-green-700/95"></div>
         </div>
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">

@@ -258,6 +258,21 @@
                     </div>
                 </div>
 
+                <!-- Registration CTA Section -->
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4">"Are You an Indigene?" Section</h4>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-user-check text-green-600 mr-1"></i> Registration CTA Background
+                        </label>
+                        @if($settings->cta_registration_image)
+                            <img src="{{ asset('storage/' . $settings->cta_registration_image) }}" alt="Registration CTA" class="mb-2 rounded-lg max-h-40 w-full object-cover">
+                        @endif
+                        <input type="file" name="cta_registration_image" accept="image/*" class="w-full border-gray-300 rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Recommended: 1920x600px, max 5MB. Background for registration call-to-action section.</p>
+                    </div>
+                </div>
+
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
                     <p class="text-sm text-blue-800">
                         <i class="fas fa-info-circle mr-2"></i>

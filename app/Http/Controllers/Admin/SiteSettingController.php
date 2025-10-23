@@ -38,6 +38,7 @@ class SiteSettingController extends Controller
             'tile_isan_day_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'tile_news_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'tile_forum_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'cta_registration_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'contact_email' => 'nullable|email|max:255',
             'contact_phone' => 'nullable|string|max:50',
             'contact_address' => 'nullable|string',
@@ -85,7 +86,7 @@ class SiteSettingController extends Controller
         }
 
         // Handle tile image uploads
-        $tileImages = ['tile_history_image', 'tile_heroes_image', 'tile_attractions_image', 'tile_isan_day_image', 'tile_news_image', 'tile_forum_image'];
+        $tileImages = ['tile_history_image', 'tile_heroes_image', 'tile_attractions_image', 'tile_isan_day_image', 'tile_news_image', 'tile_forum_image', 'cta_registration_image'];
         foreach ($tileImages as $tileImage) {
             if ($request->hasFile($tileImage)) {
                 // Delete old tile image if exists

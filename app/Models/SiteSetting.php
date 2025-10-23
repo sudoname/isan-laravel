@@ -21,6 +21,7 @@ class SiteSetting extends Model
         'tile_isan_day_image',
         'tile_news_image',
         'tile_forum_image',
+        'cta_registration_image',
         'contact_email',
         'contact_phone',
         'contact_address',
