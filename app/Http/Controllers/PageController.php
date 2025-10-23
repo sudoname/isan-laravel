@@ -114,6 +114,19 @@ class PageController extends Controller
         return view('isan-day', compact('upcomingCelebrations', 'pastCelebrations', 'pageSettings'));
     }
 
+    public function festivals()
+    {
+        // Try to get the festivals page from the database
+        $page = \App\Models\Page::where('slug', 'festivals')->published()->first();
+
+        // If database page exists, use it; otherwise show 404
+        if ($page) {
+            return view('page', compact('page'));
+        }
+
+        abort(404, 'Festivals page not found. Please create it in the admin panel.');
+    }
+
     public function contact()
     {
         return view('contact');

@@ -26,6 +26,7 @@ Route::get('/progressive-union', [PageController::class, 'progressiveUnion'])->n
 Route::get('/natural-resources', [PageController::class, 'naturalResources'])->name('natural-resources');
 Route::get('/attractions', [PageController::class, 'attractions'])->name('attractions');
 Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
+Route::get('/festivals', [PageController::class, 'festivals'])->name('festivals');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
 

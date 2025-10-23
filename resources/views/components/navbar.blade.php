@@ -37,11 +37,25 @@
                 <a href="{{ route('attractions') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('attractions') ? 'text-green-600' : '' }}">
                     Attractions
                 </a>
+
+                <!-- Events Dropdown -->
+                <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                    <button class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium flex items-center {{ request()->routeIs('isan-day') || request()->routeIs('festivals') ? 'text-green-600' : '' }}">
+                        Events
+                        <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div x-show="open"
+                         x-transition
+                         class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="{{ route('isan-day') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Isan Day Celebration</a>
+                        <a href="{{ route('festivals') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Festivals</a>
+                    </div>
+                </div>
+
                 <a href="{{ route('registration') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('registration') ? 'text-green-600' : '' }}">
                     Registration Portal
-                </a>
-                <a href="{{ route('isan-day') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('isan-day') ? 'text-green-600' : '' }}">
-                    Isan Day Celebration
                 </a>
                 <a href="{{ route('news.index') }}" class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium {{ request()->routeIs('news.*') ? 'text-green-600' : '' }}">
                     News
@@ -106,8 +120,9 @@
             <a href="{{ route('progressive-union') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Progressive Union</a>
             <a href="{{ route('natural-resources') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Natural Resources</a>
             <a href="{{ route('attractions') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Attractions</a>
-            <a href="{{ route('registration') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Registration Portal</a>
             <a href="{{ route('isan-day') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Isan Day Celebration</a>
+            <a href="{{ route('festivals') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Festivals</a>
+            <a href="{{ route('registration') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Registration Portal</a>
             <a href="{{ route('news.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">News</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Contact</a>
             <a href="{{ route('forum.index') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Forum</a>
