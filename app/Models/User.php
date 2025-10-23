@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'admin_permissions',
         'provider',
         'provider_id',
         'provider_token',
@@ -28,6 +30,9 @@ class User extends Authenticatable
         'otp_expires_at',
         'is_email_verified',
         'avatar',
+        'hometown',
+        'occupation',
+        'bio',
     ];
 
     /**
@@ -54,6 +59,59 @@ class User extends Authenticatable
             'otp_expires_at' => 'datetime',
             'is_email_verified' => 'boolean',
             'password' => 'hashed',
+            'admin_permissions' => 'array',
         ];
+    }
+
+    /**
+     * Check if user is a super admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'superadmin';
+    }
+
+    /**
+     * Check if user is an admin (includes superadmin)
+     */
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'superadmin']);
+    }
+
+    /**
+     * Check if user is a regular user
+     */
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
+     * Check if admin has permission to access a menu item
+     */
+    public function hasMenuPermission(string $menu): bool
+    {
+        // SuperAdmin has access to everything
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        // Regular users have no admin menu access
+        if (!$this->isAdmin()) {
+            return false;
+        }
+
+        // Check if admin has permission for this menu
+        $permissions = $this->admin_permissions ?? [];
+        return in_array($menu, $permissions);
+    }
+
+    /**
+     * Backwards compatibility: is_admin attribute accessor
+     */
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->isAdmin();
     }
 }

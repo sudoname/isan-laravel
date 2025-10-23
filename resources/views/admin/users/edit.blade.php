@@ -75,32 +75,107 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
 
-                <!-- Checkboxes -->
-                <div class="space-y-4">
-                    <div class="flex items-center">
-                        <input type="checkbox"
-                               name="is_admin"
-                               id="is_admin"
-                               value="1"
-                               {{ old('is_admin', $user->is_admin) ? 'checked' : '' }}
-                               class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                        <label for="is_admin" class="ml-2 text-sm text-gray-700">
-                            <i class="fas fa-shield-alt mr-1"></i> Administrator
-                        </label>
-                    </div>
+                <!-- Role Selection -->
+                <div>
+                    <label for="role" class="block text-sm font-medium text-gray-700 mb-2">
+                        User Role <span class="text-red-500">*</span>
+                    </label>
+                    <select name="role"
+                            id="role"
+                            required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('role') border-red-500 @enderror"
+                            onchange="togglePermissions()">
+                        <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>
+                            <i class="fas fa-user"></i> User (Regular User)
+                        </option>
+                        <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>
+                            <i class="fas fa-shield-alt"></i> Admin (Limited CMS Access)
+                        </option>
+                        @if(auth()->user()->isSuperAdmin())
+                            <option value="superadmin" {{ old('role', $user->role) === 'superadmin' ? 'selected' : '' }}>
+                                <i class="fas fa-crown"></i> SuperAdmin (Full Access)
+                            </option>
+                        @endif
+                    </select>
+                    @error('role')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                    <p class="mt-1 text-xs text-gray-500">
+                        SuperAdmins have full access. Admins only see selected menus below.
+                    </p>
+                </div>
 
-                    <div class="flex items-center">
-                        <input type="checkbox"
-                               name="is_email_verified"
-                               id="is_email_verified"
-                               value="1"
-                               {{ old('is_email_verified', $user->is_email_verified) ? 'checked' : '' }}
-                               class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                        <label for="is_email_verified" class="ml-2 text-sm text-gray-700">
-                            <i class="fas fa-check-circle mr-1"></i> Email Verified
-                        </label>
+                <!-- Admin Permissions (Only shown for Admin role) -->
+                <div id="permissions-section" class="border rounded-lg p-4 bg-gray-50" style="display: {{ old('role', $user->role) === 'admin' ? 'block' : 'none' }};">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">
+                        <i class="fas fa-lock mr-2"></i> Admin Menu Permissions
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-4">Select which CMS menu items this admin can access:</p>
+
+                    @php
+                        $permissions = [
+                            'dashboard' => 'Dashboard',
+                            'onisans' => 'Onisan of the Day',
+                            'news' => 'News & Announcements',
+                            'heroes' => 'Distinguished Indigenes',
+                            'hero-nominations' => 'Hero Nominations',
+                            'pages' => 'Pages',
+                            'attractions' => 'Tourist Attractions',
+                            'isan-day-celebrations' => 'Isan Day Celebrations',
+                            'isan-day-page-settings' => 'Isan Day Page Settings',
+                            'progressive-union-officials' => 'Progressive Union Officials',
+                            'natural-resources' => 'Natural Resources',
+                            'whatsapp-groups' => 'WhatsApp Groups',
+                            'settings' => 'Site Settings',
+                            'media' => 'Media Library',
+                            'users' => 'User Management',
+                            'registrations' => 'Indigene Registrations',
+                        ];
+                        $userPermissions = old('admin_permissions', $user->admin_permissions ?? []);
+                    @endphp
+
+                    <div class="grid grid-cols-2 gap-3">
+                        @foreach($permissions as $key => $label)
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                       name="admin_permissions[]"
+                                       id="permission_{{ $key }}"
+                                       value="{{ $key }}"
+                                       {{ in_array($key, $userPermissions) ? 'checked' : '' }}
+                                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label for="permission_{{ $key }}" class="ml-2 text-sm text-gray-700">
+                                    {{ $label }}
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
+
+                <!-- Email Verification -->
+                <div class="flex items-center">
+                    <input type="checkbox"
+                           name="is_email_verified"
+                           id="is_email_verified"
+                           value="1"
+                           {{ old('is_email_verified', $user->is_email_verified) ? 'checked' : '' }}
+                           class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="is_email_verified" class="ml-2 text-sm text-gray-700">
+                        <i class="fas fa-check-circle mr-1"></i> Email Verified
+                    </label>
+                </div>
+
+                <script>
+                function togglePermissions() {
+                    const roleSelect = document.getElementById('role');
+                    const permissionsSection = document.getElementById('permissions-section');
+
+                    if (roleSelect.value === 'admin') {
+                        permissionsSection.style.display = 'block';
+                    } else {
+                        permissionsSection.style.display = 'none';
+                    }
+                }
+                </script>
 
                 <!-- User Info -->
                 <div class="border-t pt-4">

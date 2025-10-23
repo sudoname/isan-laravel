@@ -25,8 +25,9 @@
             <div>
                 <select name="role" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <option value="">All Roles</option>
-                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                     <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>SuperAdmin</option>
                 </select>
             </div>
             <div>
@@ -91,7 +92,11 @@
                             <div class="text-sm text-gray-900">{{ $user->email }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            @if($user->is_admin)
+                            @if($user->role === 'superadmin')
+                                <span class="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded">
+                                    <i class="fas fa-crown mr-1"></i> SuperAdmin
+                                </span>
+                            @elseif($user->role === 'admin')
                                 <span class="px-2 py-1 text-xs font-semibold bg-purple-100 text-purple-800 rounded">
                                     <i class="fas fa-shield-alt mr-1"></i> Admin
                                 </span>
@@ -118,21 +123,6 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
-                                <!-- Promote/Demote Admin -->
-                                @if($user->id !== auth()->id())
-                                    <form action="{{ route('admin.users.toggle-admin', $user) }}"
-                                          method="POST"
-                                          class="inline"
-                                          onsubmit="return confirm('Are you sure you want to {{ $user->is_admin ? 'demote' : 'promote' }} this user?');">
-                                        @csrf
-                                        <button type="submit"
-                                                class="{{ $user->is_admin ? 'text-orange-600 hover:text-orange-900' : 'text-purple-600 hover:text-purple-900' }}"
-                                                title="{{ $user->is_admin ? 'Demote from Admin' : 'Promote to Admin' }}">
-                                            <i class="fas {{ $user->is_admin ? 'fa-user-minus' : 'fa-user-shield' }}"></i>
-                                        </button>
-                                    </form>
-                                @endif
-
                                 <a href="{{ route('admin.users.edit', $user) }}"
                                    class="text-blue-600 hover:text-blue-900"
                                    title="Edit">

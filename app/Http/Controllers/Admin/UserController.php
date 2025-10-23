@@ -27,11 +27,7 @@ class UserController extends Controller
 
         // Filter by role
         if ($request->filled('role')) {
-            if ($request->role === 'admin') {
-                $query->where('is_admin', true);
-            } elseif ($request->role === 'user') {
-                $query->where('is_admin', false);
-            }
+            $query->where('role', $request->role);
         }
 
         // Filter by verification status
@@ -65,9 +61,23 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'is_admin' => 'boolean',
+            'role' => 'required|in:user,admin,superadmin',
+            'admin_permissions' => 'nullable|array',
+            'admin_permissions.*' => 'string',
             'is_email_verified' => 'boolean',
         ]);
+
+        // Prevent changing your own role
+        if ($user->id === auth()->id() && $user->role !== $validated['role']) {
+            return redirect()->back()
+                ->with('error', 'You cannot change your own role!');
+        }
+
+        // Only SuperAdmins can create other SuperAdmins
+        if ($validated['role'] === 'superadmin' && !auth()->user()->isSuperAdmin()) {
+            return redirect()->back()
+                ->with('error', 'Only SuperAdmins can promote users to SuperAdmin!');
+        }
 
         // Only update password if provided
         if (!empty($validated['password'])) {
@@ -76,8 +86,12 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        $validated['is_admin'] = $request->has('is_admin');
         $validated['is_email_verified'] = $request->has('is_email_verified');
+
+        // Clear admin_permissions if role is 'user'
+        if ($validated['role'] === 'user') {
+            $validated['admin_permissions'] = null;
+        }
 
         $user->update($validated);
 
@@ -102,23 +116,4 @@ class UserController extends Controller
             ->with('success', 'User deleted successfully!');
     }
 
-    /**
-     * Toggle admin status for the specified user.
-     */
-    public function toggleAdmin(User $user)
-    {
-        // Prevent removing your own admin access
-        if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'You cannot change your own admin status!');
-        }
-
-        $user->is_admin = !$user->is_admin;
-        $user->save();
-
-        $status = $user->is_admin ? 'promoted to admin' : 'demoted to regular user';
-
-        return redirect()->route('admin.users.index')
-            ->with('success', "User {$status} successfully!");
-    }
 }

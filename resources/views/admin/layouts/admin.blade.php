@@ -28,100 +28,162 @@
 
             <nav class="mt-6 overflow-y-auto h-[calc(100vh-120px)]">
                 <!-- Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-tachometer-alt mr-3"></i>
-                    <span>Dashboard</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('dashboard'))
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                @endif
 
                 <!-- Content Management Section -->
-                <div class="px-6 pt-6 pb-2">
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Management</p>
-                </div>
+                @php
+                    $hasContentPermissions = auth()->user()->hasMenuPermission('onisans') ||
+                                            auth()->user()->hasMenuPermission('news') ||
+                                            auth()->user()->hasMenuPermission('heroes') ||
+                                            auth()->user()->hasMenuPermission('hero-nominations') ||
+                                            auth()->user()->hasMenuPermission('pages') ||
+                                            auth()->user()->hasMenuPermission('attractions') ||
+                                            auth()->user()->hasMenuPermission('isan-day-celebrations') ||
+                                            auth()->user()->hasMenuPermission('isan-day-page-settings') ||
+                                            auth()->user()->hasMenuPermission('progressive-union-officials') ||
+                                            auth()->user()->hasMenuPermission('natural-resources') ||
+                                            auth()->user()->hasMenuPermission('whatsapp-groups');
+                @endphp
 
-                <a href="{{ route('admin.onisans.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.onisans.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-crown mr-3"></i>
-                    <span>Onisans</span>
-                </a>
+                @if($hasContentPermissions)
+                    <div class="px-6 pt-6 pb-2">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Management</p>
+                    </div>
+                @endif
 
-                <a href="{{ route('admin.news.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.news.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-newspaper mr-3"></i>
-                    <span>News & Blog</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('onisans'))
+                    <a href="{{ route('admin.onisans.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.onisans.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-crown mr-3"></i>
+                        <span>Onisans</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.heroes.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.heroes.*') && !request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-star mr-3"></i>
-                    <span>Heroes</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('news'))
+                    <a href="{{ route('admin.news.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.news.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-newspaper mr-3"></i>
+                        <span>News & Blog</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.hero-nominations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-user-plus mr-3"></i>
-                    <span>Hero Nominations</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('heroes'))
+                    <a href="{{ route('admin.heroes.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.heroes.*') && !request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-star mr-3"></i>
+                        <span>Heroes</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.pages.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.pages.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-file-alt mr-3"></i>
-                    <span>Pages</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('hero-nominations'))
+                    <a href="{{ route('admin.hero-nominations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-user-plus mr-3"></i>
+                        <span>Hero Nominations</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.attractions.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.attractions.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-map-marked-alt mr-3"></i>
-                    <span>Attractions</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('pages'))
+                    <a href="{{ route('admin.pages.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.pages.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-file-alt mr-3"></i>
+                        <span>Pages</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.isan-day-celebrations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-celebrations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-calendar-day mr-3"></i>
-                    <span>Isan Day Celebrations</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('attractions'))
+                    <a href="{{ route('admin.attractions.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.attractions.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-map-marked-alt mr-3"></i>
+                        <span>Attractions</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.isan-day-page-settings.edit') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-page-settings.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-images mr-3"></i>
-                    <span>Isan Day Page Images</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('isan-day-celebrations'))
+                    <a href="{{ route('admin.isan-day-celebrations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-celebrations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-calendar-day mr-3"></i>
+                        <span>Isan Day Celebrations</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.progressive-union-officials.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.progressive-union-officials.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-users-cog mr-3"></i>
-                    <span>Progressive Union Officials</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('isan-day-page-settings'))
+                    <a href="{{ route('admin.isan-day-page-settings.edit') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.isan-day-page-settings.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-images mr-3"></i>
+                        <span>Isan Day Page Images</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.natural-resources.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.natural-resources.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-leaf mr-3"></i>
-                    <span>Natural Resources</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('progressive-union-officials'))
+                    <a href="{{ route('admin.progressive-union-officials.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.progressive-union-officials.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-users-cog mr-3"></i>
+                        <span>Progressive Union Officials</span>
+                    </a>
+                @endif
 
-                <a href="{{ route('admin.whatsapp-groups.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.whatsapp-groups.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fab fa-whatsapp mr-3"></i>
-                    <span>WhatsApp Groups</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('natural-resources'))
+                    <a href="{{ route('admin.natural-resources.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.natural-resources.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-leaf mr-3"></i>
+                        <span>Natural Resources</span>
+                    </a>
+                @endif
+
+                @if(auth()->user()->hasMenuPermission('whatsapp-groups'))
+                    <a href="{{ route('admin.whatsapp-groups.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.whatsapp-groups.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fab fa-whatsapp mr-3"></i>
+                        <span>WhatsApp Groups</span>
+                    </a>
+                @endif
 
                 <!-- Site Settings Section -->
-                <div class="px-6 pt-6 pb-2">
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Site Settings</p>
-                </div>
+                @php
+                    $hasSettingsPermissions = auth()->user()->hasMenuPermission('settings') ||
+                                             auth()->user()->hasMenuPermission('media');
+                @endphp
 
-                <a href="{{ route('admin.settings.edit') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.settings.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-cog mr-3"></i>
-                    <span>General Settings</span>
-                </a>
+                @if($hasSettingsPermissions)
+                    <div class="px-6 pt-6 pb-2">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Site Settings</p>
+                    </div>
+                @endif
 
-                <a href="{{ route('admin.media.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.media.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-images mr-3"></i>
-                    <span>Media Library</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('settings'))
+                    <a href="{{ route('admin.settings.edit') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.settings.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>General Settings</span>
+                    </a>
+                @endif
+
+                @if(auth()->user()->hasMenuPermission('media'))
+                    <a href="{{ route('admin.media.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.media.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-images mr-3"></i>
+                        <span>Media Library</span>
+                    </a>
+                @endif
 
                 <!-- Users Section -->
-                <div class="px-6 pt-6 pb-2">
-                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Users</p>
-                </div>
+                @php
+                    $hasUserPermissions = auth()->user()->hasMenuPermission('users') ||
+                                         auth()->user()->hasMenuPermission('registrations');
+                @endphp
 
-                <a href="{{ route('admin.users.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-users mr-3"></i>
-                    <span>All Users</span>
-                </a>
+                @if($hasUserPermissions)
+                    <div class="px-6 pt-6 pb-2">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Users</p>
+                    </div>
+                @endif
 
-                <a href="{{ route('admin.registrations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.registrations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
-                    <i class="fas fa-user-check mr-3"></i>
-                    <span>Registrations</span>
-                </a>
+                @if(auth()->user()->hasMenuPermission('users'))
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-users mr-3"></i>
+                        <span>All Users</span>
+                    </a>
+                @endif
+
+                @if(auth()->user()->hasMenuPermission('registrations'))
+                    <a href="{{ route('admin.registrations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.registrations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-user-check mr-3"></i>
+                        <span>Registrations</span>
+                    </a>
+                @endif
 
                 <div class="border-t border-gray-700 my-4"></div>
 
