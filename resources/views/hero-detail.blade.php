@@ -6,7 +6,7 @@
     <!-- Hero Header Section -->
     <section class="relative h-[500px] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="{{ $hero->image_url ?? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1920&h=1080&fit=crop' }}"
+            <img src="{{ $hero->image_url ? asset('storage/' . $hero->image_url) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1920&h=1080&fit=crop' }}"
                  alt="{{ $hero->name }}"
                  class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/80 to-gray-900/60"></div>

@@ -104,7 +104,7 @@
                     <!-- Hero Card -->
                     <a href="{{ route('heroes.show', $hero->slug) }}" class="group bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                         <div class="relative h-80 overflow-hidden">
-                            <img src="{{ $hero->image_url ?? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=800&fit=crop' }}"
+                            <img src="{{ $hero->image_url ? asset('storage/' . $hero->image_url) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=800&fit=crop' }}"
                                  alt="{{ $hero->name }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
