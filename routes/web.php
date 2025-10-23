@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Pages
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about-us');
 Route::get('/history', [PageController::class, 'history'])->name('history');
 Route::get('/heroes', [PageController::class, 'heroes'])->name('heroes');
 Route::get('/heroes/{hero:slug}', [PageController::class, 'heroDetail'])->name('heroes.show');

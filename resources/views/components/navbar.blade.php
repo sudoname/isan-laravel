@@ -17,7 +17,7 @@
                 <!-- About Dropdown -->
                 <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
                     <button class="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium flex items-center">
-                        About Isan
+                        About
                         <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -25,6 +25,7 @@
                     <div x-show="open"
                          x-transition
                          class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                        <a href="{{ route('about-us') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">About Us</a>
                         <a href="{{ route('history') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Our History</a>
                         <a href="{{ route('heroes') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Our Heroes</a>
                         <a href="{{ route('onisan') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">Onisan</a>
@@ -98,6 +99,7 @@
     <div x-show="mobileMenuOpen" x-transition class="md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
             <a href="{{ route('home') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Home</a>
+            <a href="{{ route('about-us') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">About Us</a>
             <a href="{{ route('history') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Our History</a>
             <a href="{{ route('heroes') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Our Heroes</a>
             <a href="{{ route('onisan') }}" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-md">Onisan</a>

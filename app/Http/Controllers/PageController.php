@@ -11,6 +11,19 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    public function aboutUs()
+    {
+        // Try to get the about-us page from the database
+        $page = \App\Models\Page::where('slug', 'about-us')->published()->first();
+
+        // If database page exists, use it; otherwise show 404
+        if ($page) {
+            return view('page', compact('page'));
+        }
+
+        abort(404, 'About Us page not found. Please create it in the admin panel.');
+    }
+
     public function heroes()
     {
         $heroes = Hero::published()->ordered()->get();
