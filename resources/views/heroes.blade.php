@@ -155,7 +155,7 @@
                             outstanding contributions to Isan Ekiti and society at large.
                         </p>
                         <div>
-                            <a href="{{ route('contact') }}"
+                            <a href="{{ route('hero-nominations.create') }}"
                                class="inline-block bg-white text-blue-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-xl">
                                 Nominate a Hero
                             </a>

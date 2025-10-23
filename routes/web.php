@@ -57,6 +57,10 @@ Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');
 Route::get('/forum/{category:slug}', [ForumController::class, 'category'])->name('forum.category');
 Route::get('/forum/topic/{topic}', [ForumController::class, 'topic'])->name('forum.topic');
 
+// Hero Nominations (public submission only)
+Route::get('/nominate-hero', [App\Http\Controllers\HeroNominationController::class, 'create'])->name('hero-nominations.create');
+Route::post('/nominate-hero', [App\Http\Controllers\HeroNominationController::class, 'store'])->name('hero-nominations.store');
+
 // Authenticated User Routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -104,6 +108,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Natural Resources Management
     Route::resource('natural-resources', App\Http\Controllers\Admin\NaturalResourceController::class);
+
+    // Hero Nominations Management
+    Route::resource('hero-nominations', App\Http\Controllers\Admin\HeroNominationController::class)->only(['index', 'show', 'destroy']);
+    Route::post('hero-nominations/{heroNomination}/approve', [App\Http\Controllers\Admin\HeroNominationController::class, 'approve'])->name('hero-nominations.approve');
+    Route::post('hero-nominations/{heroNomination}/reject', [App\Http\Controllers\Admin\HeroNominationController::class, 'reject'])->name('hero-nominations.reject');
+    Route::post('hero-nominations/{heroNomination}/vote', [App\Http\Controllers\Admin\HeroNominationController::class, 'vote'])->name('hero-nominations.vote');
 
     // Users Management
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->except(['create', 'store']);

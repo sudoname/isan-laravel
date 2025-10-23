@@ -48,9 +48,14 @@
                     <span>News & Blog</span>
                 </a>
 
-                <a href="{{ route('admin.heroes.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.heroes.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                <a href="{{ route('admin.heroes.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.heroes.*') && !request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
                     <i class="fas fa-star mr-3"></i>
                     <span>Heroes</span>
+                </a>
+
+                <a href="{{ route('admin.hero-nominations.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.hero-nominations.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span>Hero Nominations</span>
                 </a>
 
                 <a href="{{ route('admin.pages.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.pages.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
