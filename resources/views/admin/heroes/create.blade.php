@@ -6,7 +6,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-lg shadow p-6">
-        <form action="{{ route('admin.heroes.store') }}" method="POST" enctype="multipart/form-data">
+        <form id="heroForm" action="{{ route('admin.heroes.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Basic Information -->
@@ -116,8 +116,7 @@
                         Full Biography <span class="text-red-500">*</span>
                     </label>
                     <textarea name="biography" id="biography" rows="10"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent tinymce"
-                              required>{{ old('biography') }}</textarea>
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent tinymce">{{ old('biography') }}</textarea>
                     @error('biography')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -374,16 +373,21 @@
         ],
         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
         uploadcare_public_key: '682d4029dd931b43b477',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }',
-        setup: function(editor) {
-            // Save TinyMCE content before form submission
-            editor.on('init', function() {
-                const form = editor.getElement().closest('form');
-                if (form) {
-                    form.addEventListener('submit', function(e) {
-                        tinymce.triggerSave();
-                    });
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }'
+    });
+
+    // Handle form submission - ensure TinyMCE content is saved
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('heroForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                console.log('Form submit triggered');
+                // Save all TinyMCE editors
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.triggerSave();
+                    console.log('TinyMCE content saved');
                 }
+                // Form will continue to submit
             });
         }
     });
