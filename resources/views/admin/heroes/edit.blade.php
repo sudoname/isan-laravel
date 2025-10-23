@@ -438,7 +438,18 @@
         ],
         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
         uploadcare_public_key: '682d4029dd931b43b477',
-        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }'
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; }',
+        setup: function(editor) {
+            // Save TinyMCE content before form submission
+            editor.on('init', function() {
+                const form = editor.getElement().closest('form');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        tinymce.triggerSave();
+                    });
+                }
+            });
+        }
     });
 
     // Image preview
