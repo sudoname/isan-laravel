@@ -205,7 +205,6 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 // Initialize TinyMCE
 tinymce.init({
