@@ -120,6 +120,11 @@ class HeroController extends Controller
             $validated['tags'] = array_filter($validated['tags']);
         }
 
+        // Ensure required database columns have empty string instead of null
+        $validated['title'] = $validated['title'] ?? '';
+        $validated['position'] = $validated['position'] ?? '';
+        $validated['short_description'] = $validated['short_description'] ?? '';
+
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_published'] = $request->has('is_published');
 
@@ -206,6 +211,11 @@ class HeroController extends Controller
         if (isset($validated['tags'])) {
             $validated['tags'] = array_filter($validated['tags']);
         }
+
+        // Ensure required database columns have empty string instead of null
+        $validated['title'] = $validated['title'] ?? '';
+        $validated['position'] = $validated['position'] ?? '';
+        $validated['short_description'] = $validated['short_description'] ?? '';
 
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_published'] = $request->has('is_published');
