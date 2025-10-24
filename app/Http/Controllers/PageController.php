@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attraction;
+use App\Models\Festival;
 use App\Models\Hero;
 use App\Models\NaturalResource;
 use App\Models\Onisan;
@@ -116,15 +117,18 @@ class PageController extends Controller
 
     public function festivals()
     {
-        // Try to get the festivals page from the database
-        $page = \App\Models\Page::where('slug', 'festivals')->published()->first();
+        $festivals = Festival::published()->ordered()->get();
+        return view('festivals', compact('festivals'));
+    }
 
-        // If database page exists, use it; otherwise show 404
-        if ($page) {
-            return view('page', compact('page'));
+    public function festivalDetail(Festival $festival)
+    {
+        // Automatically filtered by slug using route model binding
+        if (!$festival->is_published) {
+            abort(404);
         }
 
-        abort(404, 'Festivals page not found. Please create it in the admin panel.');
+        return view('festival-detail', compact('festival'));
     }
 
     public function contact()

@@ -27,6 +27,7 @@ Route::get('/natural-resources', [PageController::class, 'naturalResources'])->n
 Route::get('/attractions', [PageController::class, 'attractions'])->name('attractions');
 Route::get('/isan-day', [PageController::class, 'isanDay'])->name('isan-day');
 Route::get('/festivals', [PageController::class, 'festivals'])->name('festivals');
+Route::get('/festivals/{festival:slug}', [PageController::class, 'festivalDetail'])->name('festivals.show');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
 
@@ -92,6 +93,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Attractions Management
     Route::resource('attractions', App\Http\Controllers\Admin\AttractionController::class);
+
+    // Festivals Management
+    Route::resource('festivals', App\Http\Controllers\Admin\FestivalController::class);
 
     // WhatsApp Groups Management
     Route::resource('whatsapp-groups', App\Http\Controllers\Admin\WhatsAppGroupController::class);

@@ -43,6 +43,7 @@
                                             auth()->user()->hasMenuPermission('hero-nominations') ||
                                             auth()->user()->hasMenuPermission('pages') ||
                                             auth()->user()->hasMenuPermission('attractions') ||
+                                            auth()->user()->hasMenuPermission('festivals') ||
                                             auth()->user()->hasMenuPermission('isan-day-celebrations') ||
                                             auth()->user()->hasMenuPermission('isan-day-page-settings') ||
                                             auth()->user()->hasMenuPermission('progressive-union-officials') ||
@@ -95,6 +96,13 @@
                     <a href="{{ route('admin.attractions.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.attractions.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
                         <i class="fas fa-map-marked-alt mr-3"></i>
                         <span>Attractions</span>
+                    </a>
+                @endif
+
+                @if(auth()->user()->hasMenuPermission('festivals'))
+                    <a href="{{ route('admin.festivals.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-700 {{ request()->routeIs('admin.festivals.*') ? 'bg-gray-700 border-l-4 border-blue-500' : '' }}">
+                        <i class="fas fa-calendar-alt mr-3"></i>
+                        <span>Festivals</span>
                     </a>
                 @endif
 
