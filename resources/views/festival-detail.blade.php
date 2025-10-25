@@ -53,6 +53,12 @@
                                         if (isset($params['v'])) {
                                             $embedUrl = 'https://www.youtube.com/embed/' . $params['v'];
                                         }
+                                    } elseif (strpos($videoUrl, 'youtube.com/shorts/') !== false) {
+                                        // Handle YouTube Shorts URLs
+                                        preg_match('/shorts\/([a-zA-Z0-9_-]+)/', $videoUrl, $matches);
+                                        if (isset($matches[1])) {
+                                            $embedUrl = 'https://www.youtube.com/embed/' . $matches[1];
+                                        }
                                     } elseif (strpos($videoUrl, 'youtu.be') !== false) {
                                         $videoId = basename(parse_url($videoUrl, PHP_URL_PATH));
                                         $embedUrl = 'https://www.youtube.com/embed/' . $videoId;
