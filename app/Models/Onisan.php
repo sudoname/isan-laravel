@@ -15,6 +15,7 @@ class Onisan extends Model
         'short_description',
         'biography',
         'image_url',
+        'gallery_images',
         'reign_start',
         'reign_end',
         'is_current',
@@ -34,6 +35,7 @@ class Onisan extends Model
         'is_published' => 'boolean',
         'achievements' => 'array',
         'development_projects' => 'array',
+        'gallery_images' => 'array',
     ];
 
     /**

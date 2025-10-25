@@ -51,6 +51,7 @@ class OnisanController extends Controller
             'achievements.*' => 'nullable|string',
             'development_projects' => 'nullable|array',
             'development_projects.*' => 'nullable|string',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
         // Handle image upload
@@ -60,6 +61,17 @@ class OnisanController extends Controller
             $image->move(public_path('images/onisan'), $imageName);
             $validated['image_url'] = 'images/onisan/' . $imageName;
         }
+
+        // Handle gallery images upload
+        $galleryImages = [];
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $galleryName = time() . '_gallery_' . $index . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/onisan/gallery'), $galleryName);
+                $galleryImages[] = 'images/onisan/gallery/' . $galleryName;
+            }
+        }
+        $validated['gallery_images'] = $galleryImages;
 
         // If this is set as current, unset all others
         if ($request->boolean('is_current')) {
@@ -115,6 +127,8 @@ class OnisanController extends Controller
             'achievements.*' => 'nullable|string',
             'development_projects' => 'nullable|array',
             'development_projects.*' => 'nullable|string',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'remove_gallery_images' => 'nullable|array',
         ]);
 
         // Handle image upload
@@ -134,6 +148,32 @@ class OnisanController extends Controller
         if ($onisan->name !== $validated['name']) {
             $validated['slug'] = Str::slug($validated['name']);
         }
+
+        // Handle gallery images
+        $existingImages = $onisan->gallery_images ?? [];
+
+        // Remove selected images
+        if ($request->filled('remove_gallery_images')) {
+            foreach ($request->remove_gallery_images as $imageToRemove) {
+                if (file_exists(public_path($imageToRemove))) {
+                    unlink(public_path($imageToRemove));
+                }
+                $existingImages = array_filter($existingImages, function($img) use ($imageToRemove) {
+                    return $img !== $imageToRemove;
+                });
+            }
+        }
+
+        // Add new gallery images
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $galleryName = time() . '_gallery_' . $index . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/onisan/gallery'), $galleryName);
+                $existingImages[] = 'images/onisan/gallery/' . $galleryName;
+            }
+        }
+
+        $validated['gallery_images'] = array_values($existingImages);
 
         // Clean up achievements and development_projects arrays (remove empty values)
         if (isset($validated['achievements'])) {

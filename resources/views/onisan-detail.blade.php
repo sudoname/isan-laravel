@@ -78,6 +78,65 @@
                             </div>
                         </div>
                     @endif
+
+                    <!-- Image Gallery Slideshow -->
+                    @if($onisan->gallery_images && count($onisan->gallery_images) > 0)
+                        <div class="mt-12">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-6">Photo Gallery</h2>
+                            <div class="relative">
+                                <!-- Slideshow Container -->
+                                <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-gray-100">
+                                    <!-- Slides -->
+                                    @foreach($onisan->gallery_images as $index => $image)
+                                        <div class="slideshow-item {{ $index === 0 ? '' : 'hidden' }}" data-slide="{{ $index }}">
+                                            <img src="{{ asset($image) }}"
+                                                 alt="{{ $onisan->name }} - Photo {{ $index + 1 }}"
+                                                 class="w-full h-[500px] object-cover">
+                                        </div>
+                                    @endforeach
+
+                                    <!-- Navigation Arrows -->
+                                    @if(count($onisan->gallery_images) > 1)
+                                        <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                            </svg>
+                                        </button>
+                                        <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+
+                                        <!-- Slide Indicators -->
+                                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                                            @foreach($onisan->gallery_images as $index => $image)
+                                                <button onclick="goToSlide({{ $index }})"
+                                                        class="slide-indicator w-3 h-3 rounded-full transition {{ $index === 0 ? 'bg-white' : 'bg-white/50' }}"
+                                                        data-indicator="{{ $index }}">
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Thumbnails -->
+                                @if(count($onisan->gallery_images) > 1)
+                                    <div class="mt-4 grid grid-cols-4 md:grid-cols-6 gap-2">
+                                        @foreach($onisan->gallery_images as $index => $image)
+                                            <button onclick="goToSlide({{ $index }})"
+                                                    class="thumbnail-btn rounded-lg overflow-hidden border-2 transition {{ $index === 0 ? 'border-purple-600' : 'border-transparent' }} hover:border-purple-400"
+                                                    data-thumbnail="{{ $index }}">
+                                                <img src="{{ asset($image) }}"
+                                                     alt="Thumbnail {{ $index + 1 }}"
+                                                     class="w-full h-20 object-cover">
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Sidebar -->
@@ -252,4 +311,67 @@
             </div>
         </div>
     </section>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slideshow-item');
+        const indicators = document.querySelectorAll('.slide-indicator');
+        const thumbnails = document.querySelectorAll('.thumbnail-btn');
+
+        function showSlide(index) {
+            // Wrap around
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            // Hide all slides
+            slides.forEach(slide => slide.classList.add('hidden'));
+
+            // Show current slide
+            slides[currentSlide].classList.remove('hidden');
+
+            // Update indicators
+            indicators.forEach((indicator, i) => {
+                if (i === currentSlide) {
+                    indicator.classList.remove('bg-white/50');
+                    indicator.classList.add('bg-white');
+                } else {
+                    indicator.classList.remove('bg-white');
+                    indicator.classList.add('bg-white/50');
+                }
+            });
+
+            // Update thumbnail borders
+            thumbnails.forEach((thumbnail, i) => {
+                if (i === currentSlide) {
+                    thumbnail.classList.remove('border-transparent');
+                    thumbnail.classList.add('border-purple-600');
+                } else {
+                    thumbnail.classList.remove('border-purple-600');
+                    thumbnail.classList.add('border-transparent');
+                }
+            });
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+        }
+
+        // Auto-advance slideshow every 5 seconds
+        setInterval(() => {
+            if (slides.length > 1) {
+                changeSlide(1);
+            }
+        }, 5000);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+    </script>
 @endsection
