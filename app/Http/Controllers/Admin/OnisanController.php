@@ -149,31 +149,33 @@ class OnisanController extends Controller
             $validated['slug'] = Str::slug($validated['name']);
         }
 
-        // Handle gallery images
-        $existingImages = $onisan->gallery_images ?? [];
+        // Handle gallery images (only if there are changes)
+        if ($request->filled('remove_gallery_images') || $request->hasFile('gallery_images')) {
+            $existingImages = $onisan->gallery_images ?? [];
 
-        // Remove selected images
-        if ($request->filled('remove_gallery_images')) {
-            foreach ($request->remove_gallery_images as $imageToRemove) {
-                if (file_exists(public_path($imageToRemove))) {
-                    unlink(public_path($imageToRemove));
+            // Remove selected images
+            if ($request->filled('remove_gallery_images')) {
+                foreach ($request->remove_gallery_images as $imageToRemove) {
+                    if (file_exists(public_path($imageToRemove))) {
+                        unlink(public_path($imageToRemove));
+                    }
+                    $existingImages = array_filter($existingImages, function($img) use ($imageToRemove) {
+                        return $img !== $imageToRemove;
+                    });
                 }
-                $existingImages = array_filter($existingImages, function($img) use ($imageToRemove) {
-                    return $img !== $imageToRemove;
-                });
             }
-        }
 
-        // Add new gallery images
-        if ($request->hasFile('gallery_images')) {
-            foreach ($request->file('gallery_images') as $index => $image) {
-                $galleryName = time() . '_gallery_' . $index . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('images/onisan/gallery'), $galleryName);
-                $existingImages[] = 'images/onisan/gallery/' . $galleryName;
+            // Add new gallery images
+            if ($request->hasFile('gallery_images')) {
+                foreach ($request->file('gallery_images') as $index => $image) {
+                    $galleryName = time() . '_gallery_' . $index . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('images/onisan/gallery'), $galleryName);
+                    $existingImages[] = 'images/onisan/gallery/' . $galleryName;
+                }
             }
-        }
 
-        $validated['gallery_images'] = array_values($existingImages);
+            $validated['gallery_images'] = array_values($existingImages);
+        }
 
         // Clean up achievements and development_projects arrays (remove empty values)
         if (isset($validated['achievements'])) {
